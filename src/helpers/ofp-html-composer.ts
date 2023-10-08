@@ -129,7 +129,11 @@ function convertQuillDeltaToLines(delta: any) {
           previousWasEmbed = true;
         }
       } else {
-        const lastLine = lines[lines.length-1];
+        let lastLine = lines[lines.length-1];
+        if (!lastLine) {
+          lines[0] = {text: '\n', type: 'p', align: 'left'};
+          lastLine = lines[0];
+        };
         if (!attrbts) continue; //Impossible
         if (attrbts.header) lastLine.type = 'h'+attrbts.header as lineTypes;
         if (attrbts.align) lastLine.align = attrbts.align;
