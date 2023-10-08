@@ -355,7 +355,6 @@ function parseParam(text: string, id: '1' | '2') {
   storageChangeValue('description/params/param'+id+'/titleParam', title);
   storageChangeValue('description/params/param'+id+'/defaultParam', defaultIndexStr);
   storageChangeValue('description/params/param'+id+'/array', tableArray);
-  console.log(valuesArray);
 
 }
 

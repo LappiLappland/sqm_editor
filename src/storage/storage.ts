@@ -114,12 +114,10 @@ export function storageCreateValue(path: string, newProperty: string, value: any
     /* @ts-ignore */
     if (+newProperty < object[property].length) {
       /* @ts-ignore */
-      object[property].splice(newProperty, 0, newValue)
-      console.log('wtf')
+      object[property].splice(newProperty, 0, newValue);
     } else {
       /* @ts-ignore */
       object[property][newProperty] = newValue;
-      console.log('here')
     }
   }
   else {
