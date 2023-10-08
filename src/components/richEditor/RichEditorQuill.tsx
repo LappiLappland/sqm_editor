@@ -67,6 +67,7 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
   const linkModalRef = useRef(null);
   const imageModalRef = useRef(null);
   const imageButtonRef = useRef(null);
+  const entireQuillRef = useRef(null);
 
   //Add new formats
   //Attach quill event handlers
@@ -112,7 +113,6 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
         //to old position whenever you paste text
         //Only 'editor-change' event is emitted when 'silent' source is used too
         //This code (hopefuly) prevents that weird behaviour
-        //console.log(name, args, args[2]);
         if (name === 'selection-change' && args[2] === 'silent' && args[0] && args[1]) {
           if (!wantedCaretPosition.current) {
             wantedCaretPosition.current = args[0].index;
@@ -175,11 +175,11 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
 
   //Attach event handler that prevents focus stealing
   useEffect(() => {
-    if (quill && quillRef.current) {
-      const nodeEditor = quillRef.current.children.item(0) as HTMLElement;
-      const nodeClipboard = quillRef.current.children.item(1) as HTMLElement;
+    if (quill && quillRef.current && entireQuillRef.current) {
+      const quillContainer = entireQuillRef.current as HTMLElement;
+      const nodeEditor = quillContainer.children.item(0) as HTMLElement;
       if (!editorBlurHandler.current) {
-        editorBlurHandler.current = (e: FocusEvent) => {if (e.relatedTarget !== nodeClipboard) quill.disable()};
+        editorBlurHandler.current = (e: FocusEvent) => {if (!quillContainer.contains(e.relatedTarget as HTMLElement)) quill.disable()};
         nodeEditor.addEventListener('blur', editorBlurHandler.current);
       }
     }
@@ -313,6 +313,7 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
 
   return (
     <div className="quill-editor"
+    ref={entireQuillRef}
     onClick={(e) => {clickedInside(e)}}
     >
       <MarkerModal
