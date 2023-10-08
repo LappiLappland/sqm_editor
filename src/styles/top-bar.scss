@@ -1,0 +1,27 @@
+.top-bar {
+  height: 56px;
+  > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+
+    width: 100vw;
+    height: 56px;
+    border-bottom: 3px solid black;
+    background: white;
+    z-index: 3;
+  
+    img {
+      width: 40px;
+      height: 40px;
+      padding: 0 16px;
+    }
+
+    > div {
+      width: 40px;
+      padding: 0 16px;
+    }
+
+  }
+}

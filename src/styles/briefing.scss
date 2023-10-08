@@ -1,0 +1,55 @@
+
+.two-columns {
+  grid-template-columns: 15vw 85vw;
+}
+
+.three-columns {
+  grid-template-columns: 15vw 15vw 70vw;
+}
+
+.Briefing {
+  display: grid;
+  box-sizing: border-box;
+  overflow: hidden;
+  flex-grow: 1;
+
+  .briefing-main-listBox {
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px black solid;
+    box-sizing: border-box;
+  }
+
+  .sideSpecificSwitch {
+    display: flex;
+    flex-direction: column;
+    
+    > span {
+      margin-bottom: 6px;
+    }
+
+  }
+
+  .sidebar-low {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    min-width: 15vw;
+    position: relative;
+    height: 95%;
+
+    > div {
+      flex-grow: 1;
+    }
+  }
+
+  .briefing-code {
+    box-sizing: border-box;
+    height: 100vh;
+    width: 100%;
+    overflow: auto;
+  }
+
+}

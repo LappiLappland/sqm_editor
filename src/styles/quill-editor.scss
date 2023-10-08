@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond&display=swap');
+
+@font-face {
+  font-family: "AudreysHand";
+  src: local("AudreysHand"),
+  url("./../fonts/audreyshand.ttf") format("truetype");
+  font-weight: bold;
+}
+
+@mixin ofp-style-fonts {
+  p {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  h1 {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 34px;
+    font-weight: bold;
+  }
+  h2 {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  h3 {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 17px;
+    font-weight: bold;
+  }
+  h4 {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  h5 {
+    font-family: 'EB Garamond', serif;
+    font-size: 20px;
+  }
+  h6 {
+    font-family: 'AudreysHand';
+    font-style: italic;
+    font-size: 24px;
+  }
+}
+
+@mixin ofp-style-margins {
+  p {
+    margin-bottom: 6px;
+  }
+  h1 {
+    margin-bottom: 32px;
+  }
+  h2 {
+    margin-bottom: 26px;
+  }
+  h3 {
+    margin-bottom: 32px;
+  }
+  h4 {
+    margin-bottom: 24px;
+  }
+  h5 {
+    margin-bottom: 28px;
+  }
+  h6 {
+    margin-bottom: 26px;
+  }
+}
+
+.quill-editor {
+  box-sizing: border-box;
+  max-height: 90vh;
+  width: inherit;
+
+  #toolbar {
+    .ql-picker-item[data-value=""]::before {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .ql-picker-item[data-value="1"]::before {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 34px;
+      font-weight: bold;
+    }
+    .ql-picker-item[data-value="2"]::before {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .ql-picker-item[data-value="3"]::before {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 17px;
+      font-weight: bold;
+    }
+    .ql-picker-item[data-value="4"]::before {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .ql-picker-item[data-value="5"]::before {
+      font-family: 'EB Garamond', serif;
+      font-size: 20px;
+      margin-bottom: 28px;
+    }
+    .ql-picker-item[data-value="6"]::before {
+      font-family: 'AudreysHand';
+      font-style: italic;
+      font-size: 24px;
+      margin-bottom: 26px;
+    }
+  }
+
+
+  .ql-container > .ql-editor {
+    span.ql-markerLink {
+      background-color: #d2e1eb;
+      text-decoration: underline;
+      margin: 0 0.4px;
+      font-style: italic;
+    }
+  
+    span.ql-pageLink {
+      color: rgb(0, 102, 204);
+      text-decoration: underline;
+      margin: 0 0.4px;
+      font-style: italic;
+    }
+
+    @include ofp-style-fonts();
+    @include ofp-style-margins();
+  }
+
+  #markerModal, #linkModal {
+    position: absolute;
+    z-index: 3;
+    border: 1px black solid;
+    background-color: white;
+    .briefing-input {
+      margin: 0;
+      border-radius: 0;
+    }
+    button {
+      width: 34px;
+    }
+  }
+
+  #markerButton, #linkButton {
+    width: initial;
+  }
+
+  #imageModal {
+    display: grid;
+    grid-template-columns: 0.4fr 0.4fr 0.2fr;
+    grid-template-rows: 1fr 1fr;
+    position: absolute;
+    z-index: 3;
+    border: 1px black solid;
+    background-color: white;
+
+    .briefing-input {
+      grid-column: 1/3;
+      margin: 0;
+      border-radius: 0;
+      input {
+        width: 100%;
+      }
+    }
+
+    button {
+      grid-column: 3/4;
+      grid-row: 1/3;
+    }
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      > select {
+        width: 100%;
+      }
+    }
+  }
+
+}

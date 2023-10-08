@@ -1,0 +1,64 @@
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0;
+  min-width: 15vw;
+
+  li {
+    font-size: 1.1rem;
+    > * {
+      text-decoration: underline;
+    }
+  }
+  .locked {
+    text-decoration: line-through;
+    cursor: default;
+  }
+
+  button {
+    color: black;
+    background-color: white;
+    border: 0;
+    padding: 0;
+    font-size: 1.1rem;
+    font-family: serif;
+  }
+  a {
+    padding: 6px;
+  }
+  a:any-link {
+    color: black;
+  }
+  
+}
+
+.nav-bar.column {
+  flex-direction: column;
+  li {
+    margin-bottom: 12px;
+  }
+}
+
+.nav-bar.red {
+  a.active {
+    color: crimson;
+    border-radius: 16px;
+  }
+  a:hover,button:hover {
+    color: crimson;
+    cursor: pointer;
+  }
+}
+
+.nav-bar.blue {
+  a.active {
+    color: white;
+    background-color: #38bdf8;
+    border-radius: 16px;
+  }
+  a:hover,button:hover {
+    color: crimson;
+    cursor: pointer;
+  }
+}

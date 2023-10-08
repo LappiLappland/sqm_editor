@@ -1,0 +1,127 @@
+
+.Overview {
+  display: flex;
+  flex-direction: row;
+  height: 90vh;
+
+  .quill-editor {
+    width: 83vw;
+    height: 100%;
+    max-height: 100%;
+  }
+
+  main {
+    width: 85vw;
+
+
+    > * {
+      border: 1px yellowgreen solid;
+      padding: 8px;
+
+      h2 {
+        font-size: 1.2rem;
+        text-align: center;
+        margin-bottom: 6px;
+      }
+
+    }
+
+    .mission-title {
+      input {
+        text-align: center;
+      }
+    }
+
+    .picture-settings {
+      display: grid;
+      justify-items: center;
+      grid-template-columns: 0.5fr 0.5fr;
+
+      h2 {
+        grid-column: 1/3;
+      }
+
+      .picture-path {
+        grid-column: 1/3;
+        width: 100%;
+        input {
+          text-align: center;
+        }
+      }
+
+    }
+
+    .mission-description {
+      flex-grow: 1;
+    }
+
+    #toolbar {
+      button {
+        width: auto;
+      }
+    }
+
+  }
+
+  .sidebar-low {
+    
+    width: 15vw;
+
+    nav {
+      height: 90%;
+      position: fixed;
+      display: flex;
+      justify-content: flex-end;
+      flex-direction: column;
+    }
+
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 0;
+    min-width: 15vw;
+
+    li {
+      font-size: 1.1rem;
+      margin-bottom: 12px;
+    }
+
+    button {
+      color: black;
+      background-color: white;
+      border: 0;
+      padding: 0;
+      font-size: 1.1rem;
+      font-family: serif;
+    }
+    a {
+      padding: 6px;
+    }    a:any-link {
+      color: black;
+    }
+    a.active {
+      color: white;
+      background-color: #38bdf8;
+      border-radius: 16px;
+    }
+    a:any-link {
+      color: black;
+    }
+    a:hover,button:hover {
+      color: crimson;
+      cursor: pointer;
+    }
+  }
+
+  .overview-code {
+    box-sizing: border-box;
+    height: 92vh;
+    width: 100%;
+    overflow: auto;
+  }
+
+}
