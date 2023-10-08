@@ -2,6 +2,7 @@ import '../../styles/forms.scss';
 import { useState } from "react";
 import { storageChangeValue } from "../../storage/storage";
 import { tooltipProp, useTooltipComponent } from "../../hooks/useTooltip";
+import { PAGE_PATH } from '../../main';
 
 export interface FormInputRadioBoxItem {
   name: string,
@@ -48,7 +49,7 @@ export default function FormInputRadioBox({name, id = name, storagePath, options
         <label htmlFor={item.value}>
           {item.image ? (<img
           alt={item.name}
-          src={'/sqm_editor' + item.image}
+          src={PAGE_PATH + item.image}
           />) : <></>}
           {item.name}
         </label>

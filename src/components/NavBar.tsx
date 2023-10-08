@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { PAGE_PATH } from "../main";
 import '../styles/nav-bar.scss';
 
 export interface pageLink {
@@ -18,7 +19,7 @@ export default function NavBar({sharedLink = '', links, highlight = 'blue', dire
   const pageLinks = links.map((linkObj, index) => {
     if (typeof linkObj.link === 'string') {
       return (
-        <PageLink key={index} link={sharedLink + linkObj.link}>{linkObj.title || linkObj.link}</PageLink>
+        <PageLink key={index} link={PAGE_PATH + sharedLink + linkObj.link}>{linkObj.title || linkObj.link}</PageLink>
       )
     }
     else if (typeof linkObj.link === 'boolean') {

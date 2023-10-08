@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { PAGE_PATH } from '../main';
 import '../styles/top-bar.scss'
 import NavBar, { pageLink } from './NavBar';
 
@@ -15,7 +16,7 @@ export default function TopBar() {
       <div>
         <Link to="/">
           <img
-          src="/sqm_editor/lappi.png"
+          src={PAGE_PATH+'/lappi.png'}
           alt="Instructions"
           />
         </Link>
