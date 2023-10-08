@@ -151,12 +151,14 @@ function composeSounds() {
       const pitch = convertStorageValueToOFPstyle(cls.pitch);
       const titlesFont = convertStorageValueToOFPstyle(cls.titlesFont);
       const titlesSize = convertStorageValueToOFPstyle(cls.titlesSize);
-      const volume = convertStorageValueToOFPstyle(cls.volume);
       const titles = convertArrayToOFPstyle(cls.titles.flat());
+      const volume = convertStorageValueToOFPstyle(cls.volume);
+      const hasSign = volume[0] === '-' || volume[0] === '+';
+      const volumeDB = hasSign ? 'db'+volume : 'db+'+volume;
   
       sound = sound + `\tclass ${className}\n\t{\n`;
       sound = sound + `\t\t\tname = ${name};\n`;
-      sound = sound + `\t\t\tsound[] = { ${filePath}, ${volume}, ${pitch} };\n`;
+      sound = sound + `\t\t\tsound[] = { ${filePath}, ${volume ? volumeDB : ''}, ${pitch} };\n`;
       sound = sound + `\t\t\ttitles[] = ${titles};\n`;
       if (titlesFont) sound = sound + `\t\t\ttitlesFont = ${titlesFont};\n`;
       if (titlesSize) sound = sound + `\t\t\ttitlesSize = ${titlesSize};\n`;
@@ -188,10 +190,12 @@ function composeMusic() {
       const name = convertStorageValueToOFPstyle(cls.name);
       const pitch = convertStorageValueToOFPstyle(cls.pitch);
       const volume = convertStorageValueToOFPstyle(cls.volume);
-  
+      const hasSign = volume[0] === '-' || volume[0] === '+';
+      const volumeDB = hasSign ? 'db'+volume : 'db+'+volume;
+
       track = track + `\tclass ${className}\n\t{\n`;
       track = track + `\t\t\tname = ${name};\n`;
-      track = track + `\t\t\tsound[] = { ${filePath}, ${volume}, ${pitch} };\n`;
+      track = track + `\t\t\tsound[] = { ${filePath}, ${volume ? volumeDB : ''}, ${pitch} };\n`;
       track = track + '\t};';
       strings.push(track);
     }
@@ -218,12 +222,14 @@ function composeRadio() {
       if (filePath.length > 0 && filePath[1] !== '/') filePath = stringSplice(filePath, 1, 0, '/');
       const name = convertStorageValueToOFPstyle(cls.name);
       const pitch = convertStorageValueToOFPstyle(cls.pitch);
-      const volume = convertStorageValueToOFPstyle(cls.volume);
       const title = convertStorageValueToOFPstyle(cls.title);
+      const volume = convertStorageValueToOFPstyle(cls.volume);
+      const hasSign = volume[0] === '-' || volume[0] === '+';
+      const volumeDB = hasSign ? 'db'+volume : 'db+'+volume;
   
       radio = radio + `\tclass ${className}\n\t{\n`;
       radio = radio + `\t\t\tname = ${name};\n`;
-      radio = radio + `\t\t\tsound[] = { ${filePath}, ${volume}, ${pitch} };\n`;
+      radio = radio + `\t\t\tsound[] = { ${filePath}, ${volume ? volumeDB : ''}, ${pitch} };\n`;
       radio = radio + `\t\t\ttitle = ${title};\n`;
       radio = radio + '\t};';
       strings.push(radio);
@@ -255,8 +261,15 @@ function composeSFX() {
   
       let sounds = '\t\t\tsounds[] = { ';
       cls.sounds.forEach((sound, index) => {
-        if (sound[0].length > 0 && sound[0][1] !== '/') sound=[stringSplice(sound[0], 1, 0, '/'), sound[1], sound[2], sound[3], sound[4], sound[5], sound[6]];
-        SFX = SFX + `\t\t\tsound${index}[] = ${convertArrayToOFPstyle(sound)};\n`;
+        const clone = [...sound];
+        if (clone[0].length > 1 && clone[0][1] !== '/') clone[0] = stringSplice(clone[0], 1, 0, '/');
+        if (clone[1].length > 1) {
+          const volume = convertStorageValueToOFPstyle(clone[1]);
+          const hasSign = volume[0] === '-' || volume[0] === '+';
+          const volumeDB = hasSign ? 'db'+volume : 'db+'+volume;
+          clone[1] = CHAR_TYPES.MATH+volumeDB;
+        }
+        SFX = SFX + `\t\t\tsound${index}[] = ${convertArrayToOFPstyle(clone)};\n`;
         if (index === cls.sounds.length-1) sounds = sounds + `sound${index}`
         else sounds = sounds + `sound${index}, `;
       })
