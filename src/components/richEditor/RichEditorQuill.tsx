@@ -114,13 +114,16 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
         //Only 'editor-change' event is emitted when 'silent' source is used too
         //This code (hopefuly) prevents that weird behaviour
         if (name === 'selection-change' && args[2] === 'silent' && args[0] && args[1]) {
+          console.log('triggered', args);
           if (!wantedCaretPosition.current) {
             wantedCaretPosition.current = args[0].index;
           } else {
             if (args[1].index === wantedCaretPosition.current) {
-              quill.setSelection(wantedCaretPosition.current, 0);
-              wantedCaretPosition.current = null;
+              if (args[1] > args[2]) {
+                quill.setSelection(wantedCaretPosition.current, 0);
+              }
             }
+            wantedCaretPosition.current = null;
           }
         }
       }
