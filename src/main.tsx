@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, createHashRouter, RouterProvider } from 'react-router-dom';
 import './fonts/audreyshand.ttf'
 import './styles/reset.css'
 import './styles/index.css'
@@ -20,7 +20,7 @@ import OverviewShowCodePage from './pages/overview.html/showCode';
 import IndexPage from './pages';
 import ErrorPage from './pages/error';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <IndexPage />,
