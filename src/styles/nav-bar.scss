@@ -17,8 +17,8 @@
   }
 
   button {
-    color: black;
-    background-color: white;
+    color: var(--theme-font-color);
+    background-color: var(--theme-bg-color);
     border: 0;
     padding: 0;
     font-size: 1.1rem;
@@ -28,7 +28,7 @@
     padding: 6px;
   }
   a:any-link {
-    color: black;
+    color: var(--theme-font-color);
   }
   
 }
@@ -42,23 +42,23 @@
 
 .nav-bar.red {
   a.active {
-    color: crimson;
+    color: var(--theme-font-hover-color);
     border-radius: 16px;
   }
   a:hover,button:hover {
-    color: crimson;
+    color: var(--theme-font-hover-color);
     cursor: pointer;
   }
 }
 
 .nav-bar.blue {
   a.active {
-    color: white;
-    background-color: #38bdf8;
+    color: var(--theme-font-selected-color);
+    background-color: var(--theme-bg-selected-color);
     border-radius: 16px;
   }
   a:hover,button:hover {
-    color: crimson;
+    color: var(--theme-font-hover-color);
     cursor: pointer;
   }
 }

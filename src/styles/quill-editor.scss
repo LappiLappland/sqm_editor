@@ -110,19 +110,30 @@
       font-size: 24px;
       margin-bottom: 26px;
     }
+ 
   }
 
+  #toolbar {
+    .ql-picker span {
+      color: var(--theme-font-color);
+      background-color: var(--theme-bg-color);
+      border-color: var(--theme-input-border-color);
+    }
+    .ql-stroke {
+      stroke: var(--theme-font-color);
+    }
+  }
 
   .ql-container > .ql-editor {
     span.ql-markerLink {
-      background-color: #d2e1eb;
+      background-color: var(--theme-marker-link-color);
       text-decoration: underline;
       margin: 0 0.4px;
       font-style: italic;
     }
   
     span.ql-pageLink {
-      color: rgb(0, 102, 204);
+      color: var(--theme-page-link-color);
       text-decoration: underline;
       margin: 0 0.4px;
       font-style: italic;
@@ -135,8 +146,8 @@
   #markerModal, #linkModal {
     position: absolute;
     z-index: 3;
-    border: 1px black solid;
-    background-color: white;
+    border: 1px solid var(--theme-border-main-color);
+    background-color: var(--theme-bg-color);
     .briefing-input {
       margin: 0;
       border-radius: 0;
@@ -146,9 +157,15 @@
     }
   }
 
-  #markerButton, #linkButton {
+  #markerButton, #linkButton, #imageButton {
     width: initial;
+    background-color: var(--theme-bg-color);
+    border: 1px solid var(--theme-input-border-color);
+    &:hover {
+      color: var(--theme-font-hover-color);
+    }
   }
+
 
   #imageModal {
     display: grid;
@@ -156,8 +173,8 @@
     grid-template-rows: 1fr 1fr;
     position: absolute;
     z-index: 3;
-    border: 1px black solid;
-    background-color: white;
+    border: 1px solid var(--theme-border-main-color);
+    background-color: var(--theme-bg-color);
 
     .briefing-input {
       grid-column: 1/3;

@@ -263,7 +263,7 @@ export function DynamicTable({
     onMouseMove={(e) => tooltipChangeHandler(e)}
     onMouseLeave={() => tooltipLeaveHandler()}
     onFocus={(e) => {changeFocus(e)}}
-    className={className}>
+    className={'form-table ' + className}>
 
       <table >
         <thead>

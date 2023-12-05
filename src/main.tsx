@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { createBrowserRouter, createHashRouter, RouterProvider } from 'react-router-dom';
 import './fonts/audreyshand.ttf'
 import './styles/reset.css'
@@ -19,6 +19,7 @@ import OverviewPage from './pages/overview.html';
 import OverviewShowCodePage from './pages/overview.html/showCode';
 import IndexPage from './pages';
 import ErrorPage from './pages/error';
+import ThemeComponent, { ThemeContext } from './components/ThemeContext';
 
 const router = createHashRouter([
   {
@@ -89,17 +90,18 @@ export default function Main() {
   useEffect(() => {
     const unloadCallback = (e: BeforeUnloadEvent) => {
       e.preventDefault();
-      e.returnValue = "";
-      return "";
+      e.returnValue = '';
+      return '';
     };
   
-    window.addEventListener("beforeunload", unloadCallback);
-    return () => window.removeEventListener("beforeunload", unloadCallback);
+    window.addEventListener('beforeunload', unloadCallback);
+    return () => window.removeEventListener('beforeunload', unloadCallback);
   }, []);
 
   return (
-    <>
-    <RouterProvider router={router} />
-    </>
+    <ThemeComponent>
+      <RouterProvider router={router} />
+    </ThemeComponent>
+
   )
 }

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './fonts/audreyshand.ttf';
 import './styles/reset.css';
 import './styles/index.css';
+import './styles/colours.scss';
 import Main from './main';
 
 const root = ReactDOM.createRoot(

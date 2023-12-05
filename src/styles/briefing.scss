@@ -12,14 +12,20 @@
   box-sizing: border-box;
   overflow: hidden;
   flex-grow: 1;
+  background-color: var(--theme-bg-secondary-color);
 
   .briefing-main-listBox {
-    
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border-right: 1px black solid;
+    border-right: 1px solid var(--theme-border-main-color);
+    background-color: var(--theme-bg-secondary-2-color);
     box-sizing: border-box;
+  }
+
+  .briefing-secondary-listBox {
+    border-right: 2px solid var(--theme-border-main-color);
+    background-color: var(--theme-bg-secondary-2-color);
   }
 
   .sideSpecificSwitch {
@@ -39,6 +45,7 @@
     min-width: 15vw;
     position: relative;
     height: 95%;
+    background-color: var(--theme-bg-secondary-2-color);
 
     > div {
       flex-grow: 1;

@@ -13,13 +13,14 @@ export default function OverviewShowCodePage() {
     <TopBar></TopBar>
     <div className="Overview">
       <aside className="sidebar-low">
-        <div></div>
-        <OverviewSideBar></OverviewSideBar>
+        <nav>
+          <OverviewSideBar></OverviewSideBar>
+        </nav>
       </aside>
       <main>
-      <pre className="parse-code overview-code"><code>
-        {entireCode.join('\n')}
-      </code></pre>
+        <pre className="parse-code overview-code"><code>
+          {entireCode.join('\n')}
+        </code></pre>
       </main>
     </div>
     </>

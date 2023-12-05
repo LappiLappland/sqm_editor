@@ -1,5 +1,5 @@
 .parse-errors {
-  border: 2px yellowgreen solid;
+  border: 2px solid var(--theme-border-secondary-color);
   margin-bottom: 6px;
   li {
     padding: 4px;
@@ -8,7 +8,7 @@
 
 .parse-code {
   font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
-  border: 2px yellowgreen solid;
+  border: 2px solid var(--theme-border-secondary-color);
   padding: 4px;
   line-height: 1.4rem;
 }

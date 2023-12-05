@@ -3,12 +3,13 @@
   main {
 
     box-sizing: border-box;
-    background-color: white;
+    background-color: var(--theme-bg-secondary-color);
+    color: var(--theme-font-color);
     padding: 8px;
     z-index: 1;
 
     fieldset {
-      border: 1px solid yellowgreen;
+      border: 1px solid var(--theme-border-secondary-color);
       padding: 6px;
     }
     h1 {
@@ -43,7 +44,7 @@
   display: grid;
   grid-template-columns: 15% 70% 15%;
   main {
-    border-left: 2px solid black;
+    border-left: 2px solid var(--theme-border-main-color);
   }
   h1, h2 {
     text-align: center;
@@ -62,7 +63,7 @@
   display: grid;
   box-sizing: border-box;
   > fieldset {
-    border: 1px solid yellowgreen;
+    border: 1px solid var(--theme-border-secondary-color);
     padding: 6px;
   }
   h3 {
@@ -98,7 +99,9 @@
   width: 15vw;
 
   box-sizing: border-box;
-  border-right: 3px black solid;
+  border-right: 3px solid var(--theme-border-main-color);
+  background-color: var(--theme-bg-secondary-2-color);
+  color: var(--theme-font-color);
 
   > nav {
     height: 90%;
@@ -113,7 +116,7 @@
 
 .classes-list-box {
 
-  border-left: 3px solid black;
+  border-left: 3px solid var(--theme-border-main-color);
   z-index: 2;
 
   > div {
@@ -145,10 +148,10 @@
         justify-content: space-between;
         padding: 4px;
         font-size: 1.1rem;
-        border-bottom: 1px yellowgreen solid;
+        border-bottom: 1px solid var(--theme-border-main-color);
 
         &.active {
-          background-color: #2196F3;
+          background-color: var(--theme-bg-selected-color);
           color: white;
         }
 
@@ -169,11 +172,11 @@
     margin-bottom: 4px;
     table-layout: fixed;
     tr.selected {
-      background-color: #2196F3;
-      color: white;
+      background-color: var(--theme-bg-selected-color);
+      color: var(--theme-font-selected-color);
     }
     tr, td, th {
-      border: 1px solid black;
+      border: 1px solid var(--theme-border-main-color);
     }
     input {
       padding: 8px;

@@ -82,16 +82,16 @@ export default function BriefingPage() {
         
       </div>
 
-      <div>
-      <FormListBox
-      title="Sections"
-      list={extraList}
-      value={currentPagePath}
-      onSectionAdded={sectionAddedHandler}
-      onSectionRemoved={sectionRemovedHandler}
-      regexCheck={/^([_a-zA-Z][_a-zA-Z0-9]*)?$/}
-      onChange={(x) => {if (x) setCurrentPagePath(x)}}
-      />  
+      <div className="briefing-secondary-listBox">
+        <FormListBox
+        title="Sections"
+        list={extraList}
+        value={currentPagePath}
+        onSectionAdded={sectionAddedHandler}
+        onSectionRemoved={sectionRemovedHandler}
+        regexCheck={/^([_a-zA-Z][_a-zA-Z0-9]*)?$/}
+        onChange={(x) => {if (x) setCurrentPagePath(x)}}
+        />  
       </div>
       
       <RichEditorQuill

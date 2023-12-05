@@ -8,14 +8,18 @@
 
     width: 100vw;
     height: 56px;
-    border-bottom: 3px solid black;
-    background: white;
+    border-bottom: 3px solid var(--theme-border-main-color);
+    background: var(--theme-bg-color);
     z-index: 3;
   
     img {
       width: 40px;
       height: 40px;
       padding: 0 16px;
+    }
+
+    .theme-switcher {
+      margin: 0 16px;
     }
 
     > div {

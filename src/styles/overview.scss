@@ -12,10 +12,10 @@
 
   main {
     width: 85vw;
-
+    background-color: var(--theme-bg-secondary-color);
 
     > * {
-      border: 1px yellowgreen solid;
+      border: 1px solid var(--theme-border-secondary-color);
       padding: 8px;
 
       h2 {
@@ -66,6 +66,9 @@
   .sidebar-low {
     
     width: 15vw;
+    background-color: var(--theme-bg-secondary-2-color);
+    box-sizing: border-box;
+    border-right: 2px solid var(--theme-border-main-color);
 
     nav {
       height: 90%;
@@ -91,8 +94,8 @@
     }
 
     button {
-      color: black;
-      background-color: white;
+      color: var(--theme-font-color);
+      background-color: var(--theme-bg-color);
       border: 0;
       padding: 0;
       font-size: 1.1rem;
@@ -101,18 +104,18 @@
     a {
       padding: 6px;
     }    a:any-link {
-      color: black;
+      color: var(--theme-font-color);
     }
     a.active {
-      color: white;
-      background-color: #38bdf8;
+      color: var(--theme-font-selected-color);
+      background-color: var(--theme-bg-selected-color);
       border-radius: 16px;
     }
     a:any-link {
-      color: black;
+      color: var(--theme-font-color);
     }
     a:hover,button:hover {
-      color: crimson;
+      color: var(--theme-font-hover-color);
       cursor: pointer;
     }
   }

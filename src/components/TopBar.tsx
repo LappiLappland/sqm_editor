@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import '../styles/top-bar.scss'
 import NavBar, { pageLink } from './NavBar';
+import ThemeSwitch from './ThemeSwitch';
 
 export default function TopBar() {
 
@@ -24,7 +25,7 @@ export default function TopBar() {
         highlight="red"
         direction="row"
         ></NavBar>
-        <div></div>
+        <ThemeSwitch />
       </div>
     </nav>
   )

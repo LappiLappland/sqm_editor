@@ -1,12 +1,16 @@
 .index-main {
   display: flex;
   justify-content: center;
+  background-color: var(--theme-bg-secondary-color);
+  flex-grow: 1;
 
   > div {
-    border: 2px yellowgreen solid;
+    border: 2px solid var(--theme-border-secondary-color);
+    background-color: var(--theme-bg-secondary-2-color);
     padding: 16px;
     width: 30vw;
     margin: 16px;
+    height: fit-content;
 
     h1 {
       font-size: 1.2rem;
@@ -41,10 +45,10 @@
 }
 
 .key {
-  border: 1px solid black;
+  border: 1px solid var(--theme-border-main-color);
   margin-right: 4px;
   padding: 1px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 10px var(--theme-shadow-color);
 }
 
 .key-desc {
@@ -58,9 +62,9 @@
 
 .hint {
   display: flex;
-  border: 1px black solid;
+  border: 1px solid var(--theme-border-main-color);
   padding: 6px;
   border-radius: 16px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 10px var(--theme-shadow-color);
 }
 
