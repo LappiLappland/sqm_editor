@@ -118,7 +118,7 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
         //console.log(name, args, args[2]);
         if (name === 'selection-change' && args[2] === 'silent' && args[0] && args[1]) {
           if (!wantedCaretPosition.current) {
-            wantedCaretPosition.current = args[0].index;
+            wantedCaretPosition.current = args[1].index;
           } else {
             if (args[1].index === wantedCaretPosition.current) {
               quill.setSelection(wantedCaretPosition.current, 0);
