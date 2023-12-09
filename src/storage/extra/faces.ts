@@ -309,6 +309,6 @@ const OFP_FACES = {
     image: '/faces/Nada.jpg',
     id: 61,
   },  
-}
+};
 
 export default OFP_FACES;

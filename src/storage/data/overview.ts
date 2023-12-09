@@ -19,7 +19,7 @@ interface overviewI {
 export function createBasicOverviewValue() {
   return {
     content: {},
-  }
+  };
 }
 
 const overview: overviewI = {
@@ -30,6 +30,6 @@ const overview: overviewI = {
     height: CHAR_TYPES.NUMBER+'64',
   },
   description: createBasicOverviewValue(),
-}
+};
 
 export default overview;

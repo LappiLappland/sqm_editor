@@ -19,7 +19,7 @@ export function createRadioClass(): RadioClass {
     filePath: CHAR_TYPES.STRING+'',
     volume: CHAR_TYPES.NUMBER+'',
     pitch: CHAR_TYPES.NUMBER+'',
-  }
+  };
 }
 
 export function generateRadioClass(example: RadioClass): RadioClass {
@@ -31,7 +31,7 @@ export function generateRadioClass(example: RadioClass): RadioClass {
     filePath: CHAR_TYPES.STRING+example.filePath,
     volume: CHAR_TYPES.NUMBER+example.volume,
     pitch: CHAR_TYPES.NUMBER+example.pitch,
-  }
+  };
 }
 
 const cfgRadio: RadioClass[] = [];

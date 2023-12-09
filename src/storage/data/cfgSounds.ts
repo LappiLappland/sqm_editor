@@ -25,12 +25,12 @@ export function createSoundClass(): SoundClass {
     titlesSize: CHAR_TYPES.NUMBER+'',
     forceTitles: false,
     titles: []
-  }
+  };
 }
 
 export function generateSoundClass(example: SoundClass): SoundClass {
   
-  const typedTitles = example.titles.map((array) => [CHAR_TYPES.NUMBER+array[0],CHAR_TYPES.STRING+array[1]])
+  const typedTitles = example.titles.map((array) => [CHAR_TYPES.NUMBER+array[0],CHAR_TYPES.STRING+array[1]]);
   
   return {
     className: CHAR_TYPES.STRING+example.className,
@@ -43,7 +43,7 @@ export function generateSoundClass(example: SoundClass): SoundClass {
     titlesSize: CHAR_TYPES.NUMBER+example.titlesSize,
     forceTitles: example.forceTitles,
     titles: typedTitles
-  }
+  };
 }
 
 const cfgSounds: SoundClass[] = [];

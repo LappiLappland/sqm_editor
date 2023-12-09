@@ -10,7 +10,7 @@ const showHud = (
       <li>Cloak when spotting enemies</li>
     </ul>
   </>
-)
+);
 
 const param = (
   <>
@@ -19,11 +19,11 @@ const param = (
     id &mdash;&gt; row id<br/>
     text &mdash;&gt; text displayed inside lobby<br/>
     value &mdash;&gt; value stored inside variable<br/>
-    <br/>Inside 'value' you can use 'x' variable. It refers to row id.
+    <br/>Inside &quot;value&quot; you can use &quot;x&quot; variable. It refers to row id.
   </>
-)
+);
 
-const scoreInfo = <><br/><br/>Formula:<br/>Less than avg: 3 * (score - avgScore) / (avgScore - minScore)<br/>More than avg: 4 * (score - avgScore) / (maxScore - avgScore)<br/>You can get max of 3 crosses (negative score) or 4 stars (positive score).</>
+const scoreInfo = <><br/><br/>Formula:<br/>Less than avg: 3 * (score - avgScore) / (avgScore - minScore)<br/>More than avg: 4 * (score - avgScore) / (maxScore - avgScore)<br/>You can get max of 3 crosses (negative score) or 4 stars (positive score).</>;
 
 const PARAMS_TOOLTIPS = {
   onLoadMission: <>Displays a message while the mission is loading.<br/>It has NO EFFECT on displayed name in MP game. BIS wiki seems to be wrong about this!</>,
@@ -46,6 +46,6 @@ const PARAMS_TOOLTIPS = {
   aiKills: <>Enables AI units score to appear in score table.</>,
   titleParam: <>Title for param.<br/>It has to be filled for param to appear! (You can put space to make it appear blank)</>,
   param
-}
+};
 
 export default PARAMS_TOOLTIPS;

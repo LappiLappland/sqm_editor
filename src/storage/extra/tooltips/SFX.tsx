@@ -1,4 +1,4 @@
-import { fileSound_explanation, pitch_explanation, soundKeepName_explanation, soundName_explanation, sound_explanation } from "./shared";
+import { soundKeepName_explanation, soundName_explanation } from "./shared";
 
 const sounds = (
   <>
@@ -10,13 +10,13 @@ const sounds = (
     % &mdash;&gt; how often the sound is chosen randomly. Range (0-1)<br/>
     min, mid, max &mdash;&gt; time to wait before playing next sound (or the same sound in the loop).<br/>
   </>
-)
+);
 
 const SFX_TOOLTIPS = {
   className: <>Unique name.</>,
   name: soundName_explanation,
   keepName: soundKeepName_explanation,
   sounds,
-}
+};
 
 export default SFX_TOOLTIPS;

@@ -1,7 +1,7 @@
-import cfgMagazines from "./cfgMagazines"
-import cfgWeapons from "./cfgWeapons"
+import cfgMagazines from "./cfgMagazines";
+import cfgWeapons from "./cfgWeapons";
 
-//      cfgWeapons and cfgMagazines
+//      CfgWeapons and cfgMagazines
 //      Currently are very primitive
 //      Because one weapon can have multiple magazines 
 //TODO: weapons should have references to magazines

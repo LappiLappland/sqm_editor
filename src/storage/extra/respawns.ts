@@ -1,4 +1,4 @@
-import { FormInputRadioBoxItem } from "../../components/forms/FormInputRadioBox"
+import { FormInputRadioBoxItem } from "../../components/forms/FormInputRadioBox";
 
 export const RESPAWN_OPTIONS: FormInputRadioBoxItem[] = [
   {
@@ -26,4 +26,4 @@ export const RESPAWN_OPTIONS: FormInputRadioBoxItem[] = [
     value: 'GROUP',
     id: 4,
   },
-]
+];

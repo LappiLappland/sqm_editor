@@ -3,7 +3,6 @@ import { CHAR_TYPES } from "../types";
 export type GearClass = string[][]
 
 
-
 const weapons: GearClass = [];
 const magazines: GearClass = [];
 

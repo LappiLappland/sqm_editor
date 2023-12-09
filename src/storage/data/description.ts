@@ -36,7 +36,7 @@ const params = {
     defaultParam: CHAR_TYPES.NUMBER,
     array: [] as string[][]
   },
-}
+};
 
 const description = {
   params,
@@ -48,6 +48,6 @@ const description = {
   weapons,
   magazines,
   classesMemory,
-}
+};
 
 export default description;

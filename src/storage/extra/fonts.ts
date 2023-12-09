@@ -8,6 +8,6 @@ const TITLE_FONTS = [
   "SteelfishB128",
   "AudreysHandB48",
   "AudreysHandI48"
-]
+];
 
-export default TITLE_FONTS
+export default TITLE_FONTS;

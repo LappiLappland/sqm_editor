@@ -17,7 +17,7 @@ export function createMusicClass(): MusicClass {
     filePath: CHAR_TYPES.STRING+'',
     volume: CHAR_TYPES.NUMBER+'',
     pitch: CHAR_TYPES.NUMBER+'',
-  }
+  };
 }
 
 export function generateMusicClass(example: MusicClass): MusicClass {
@@ -28,7 +28,7 @@ export function generateMusicClass(example: MusicClass): MusicClass {
     filePath: CHAR_TYPES.STRING+example.filePath,
     volume: CHAR_TYPES.NUMBER+example.volume,
     pitch: CHAR_TYPES.NUMBER+example.pitch,
-  }
+  };
 }
 
 

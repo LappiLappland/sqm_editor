@@ -17,7 +17,7 @@ export function createIdentityClass(): IdentityClass {
     pitch: CHAR_TYPES.NUMBER+'',
     glasses: CHAR_TYPES.STRING+'',
     face: CHAR_TYPES.STRING+'',
-  }
+  };
 }
 
 export function generateIdentityClass(example: IdentityClass): IdentityClass {
@@ -28,7 +28,7 @@ export function generateIdentityClass(example: IdentityClass): IdentityClass {
     pitch: CHAR_TYPES.NUMBER+example.pitch,
     glasses: CHAR_TYPES.STRING+example.glasses,
     face: CHAR_TYPES.STRING+example.face,
-  }
+  };
 }
 
 const cfgIdentities: IdentityClass[] = [];

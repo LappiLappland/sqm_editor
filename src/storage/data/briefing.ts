@@ -37,14 +37,14 @@ interface briefingI {
 export function createBasicBriefingValue() {
   return {
     content: {},
-  }
+  };
 }
 
 export function createBasicBriefingObjective(id: string) {
   return {
     id,
     content: {},
-  }
+  };
 }
 
 const briefing: briefingI = {
@@ -71,6 +71,6 @@ const briefing: briefingI = {
     currentlySelectedObjective: CHAR_TYPES.STRING+'',
   },
   objectives: [],
-}
+};
 
 export default briefing;
