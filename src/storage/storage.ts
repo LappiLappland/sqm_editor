@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import description from "./data/description";
 import classes from "./classes/classes";
 import briefing from "./data/briefing";
@@ -18,7 +19,7 @@ const Mission = {
   classes,
   briefing,
   overview,
-}
+};
 
 export function getStorage() {
   return Mission;
@@ -29,6 +30,7 @@ function getDeepObjectWithProperty(properties: string[]) {
   let previousProperty = Mission;
   for (let i = 0; i < properties.length; i++) {
     const item = properties[i];
+    // eslint-disable-next-line no-prototype-builtins
     if (currentProperty.hasOwnProperty(item)) {
       previousProperty = currentProperty;
       /* @ts-ignore */
@@ -42,12 +44,12 @@ function getDeepObjectWithProperty(properties: string[]) {
 
 //? Im not sure how to make typeScript belive that this is type safe
 //? For now I've just made it ignore lines
-export function storageChangeValue(path: string, value: any) {
+export function storageChangeValue(path: string, value: unknown) {
   const proprts = path.split('/');
 
   const object = getDeepObjectWithProperty(proprts);
   if (!object) {
-    const error = new Error(`Could not find path inside storage: ${object}`)
+    const error = new Error(`Could not find path inside storage: ${object}`);
     throw error;
   }
   
@@ -72,15 +74,15 @@ export function storageChangeValue(path: string, value: any) {
   /* @ts-ignore */
   object[property] = newValue;
 
-  //console.log(getStorage());
+  //Console.log(getStorage());
 }
 
-export function storageCreateValue(path: string, newProperty: string, value: any, type?: CHAR_TYPES[] | CHAR_TYPES) {
+export function storageCreateValue(path: string, newProperty: string, value: unknown, type?: CHAR_TYPES[] | CHAR_TYPES) {
   const proprts = path.split('/');
 
   const object = getDeepObjectWithProperty(proprts);
   if (!object) {
-    const error = new Error(`Could not find path inside storage: ${object}`)
+    const error = new Error(`Could not find path inside storage: ${object}`);
     throw error;
   }
 
@@ -98,7 +100,7 @@ export function storageCreateValue(path: string, newProperty: string, value: any
     /* @ts-ignore */
     object[property][newProperty] = newValue;
   }
-  else if (Array.isArray(value)) {
+  else if (Array.isArray(value) && Array.isArray(newValue)) {
     if (!type || !Array.isArray(type)) {
       const error = new Error("You have to set types array for inserted array!");
       throw error;
@@ -114,12 +116,12 @@ export function storageCreateValue(path: string, newProperty: string, value: any
     /* @ts-ignore */
     if (+newProperty < object[property].length) {
       /* @ts-ignore */
-      object[property].splice(newProperty, 0, newValue)
-      console.log('wtf')
+      object[property].splice(newProperty, 0, newValue);
+      console.log('wtf');
     } else {
       /* @ts-ignore */
       object[property][newProperty] = newValue;
-      console.log('here')
+      console.log('here');
     }
   }
   else {
@@ -136,13 +138,13 @@ export function storageRemoveValue(path: string) {
 
   const object = getDeepObjectWithProperty(proprts);
   if (!object) {
-    const error = new Error(`Could not find path inside storage: ${object}`)
+    const error = new Error(`Could not find path inside storage: ${object}`);
     throw error;
   }
 
   const property = proprts[proprts.length - 1];
   if (Array.isArray(object)) {
-    object.splice(+property, 1)
+    object.splice(+property, 1);
   } else {
     /* @ts-ignore */
     delete object[property];
@@ -155,7 +157,7 @@ export function storageGetValue(path: string) {
 
   const object = getDeepObjectWithProperty(proprts);
   if (!object) {
-    const error = new Error(`Could not find path inside storage: ${object} with path '${path}'`)
+    const error = new Error(`Could not find path inside storage: ${object} with path '${path}'`);
     throw error;
   }
 
