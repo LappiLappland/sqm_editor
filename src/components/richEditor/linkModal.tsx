@@ -51,14 +51,14 @@ export function LinkModal({quill, divRef, linkObject, setLinkObject}: LinkModalP
         pageName: '',
       });
     }
-    setLinkName('')
+    setLinkName('');
   }
 
   useEffect(() => {
     if (linkObject.display && quill) {
       quill?.disable();
     }
-  }, [linkObject, quill])
+  }, [linkObject, quill]);
 
   const autoCompleteMain: autoCompleteType = [
     {
@@ -74,34 +74,34 @@ export function LinkModal({quill, divRef, linkObject, setLinkObject}: LinkModalP
     return {
       id: key,
       option: key,
-    }
-  })
+    };
+  });
   const autoComplete = [...autoCompleteMain, ...autoCompleteExtra];
 
   return (
     <div
-    style={{
-      display: show,
-      top: linkObject.y,
-      left: linkObject.x,
-    }}
-    ref={divRef}
-    onKeyDown={(e) => keyboardHandler(e)}
-    id="linkModal">
+      style={{
+        display: show,
+        top: linkObject.y,
+        left: linkObject.x,
+      }}
+      ref={divRef}
+      onKeyDown={(e) => keyboardHandler(e)}
+      id="linkModal">
       <FormInputText className="briefing-input"
-      type='string'
-      name=''
-      placeholder='Enter page name...'
-      value={linkName}
-      onValueChanged={(x) => setLinkName(x)}
-      autoComplete={autoComplete}
+        type='string'
+        name=''
+        placeholder='Enter page name...'
+        value={linkName}
+        onValueChanged={(x) => setLinkName(x)}
+        autoComplete={autoComplete}
       />
       <button
-      onClick={() => acceptLinkName()}
+        onClick={() => acceptLinkName()}
       
       >
         +
       </button>
     </div>
-  )
+  );
 }

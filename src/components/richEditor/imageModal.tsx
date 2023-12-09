@@ -22,11 +22,11 @@ interface ImageModalProps {
   setImageObject: React.Dispatch<React.SetStateAction<ImageModalStateObject>>,
 }
 
-export function ImageModal({quill, divRef, imageObject, imageRef, setImageObject}: ImageModalProps) {
+export function ImageModal({quill, divRef, imageObject, setImageObject}: ImageModalProps) {
 
   const [pathName, setPathName] = useState(imageObject.imageValue?.src || '');
-  const [width, setWidth] = useState(imageObject.imageValue ? imageObject.imageValue.width+'' : '')
-  const [height, setHeight] = useState(imageObject.imageValue ? imageObject.imageValue.height+'' : '')
+  const [width, setWidth] = useState(imageObject.imageValue ? imageObject.imageValue.width+'' : '');
+  const [height, setHeight] = useState(imageObject.imageValue ? imageObject.imageValue.height+'' : '');
   const show = imageObject.display ? 'grid' : 'none';
   
   function keyboardHandler(e: React.KeyboardEvent<HTMLElement>) {
@@ -43,7 +43,7 @@ export function ImageModal({quill, divRef, imageObject, imageRef, setImageObject
             src: pathName,
             width: width !== '' ? +width : 128,
             height: height !== '' ? +height : 128,
-          }
+          };
           if (!imageObject.imageValue) {
             quill.insertEmbed(selection.index, 'imageOFP', imageValue);
           }
@@ -59,7 +59,7 @@ export function ImageModal({quill, divRef, imageObject, imageRef, setImageObject
             }
           }
           
-          //quill.formatText(selection, 'markerLink', 'marker:'+pathName);
+          //Quill.formatText(selection, 'markerLink', 'marker:'+pathName);
         }
       }
       quill.enable();
@@ -72,41 +72,41 @@ export function ImageModal({quill, divRef, imageObject, imageRef, setImageObject
         imageValue: null,
       });
     }
-    //setMarkerName('')
+    //SetMarkerName('')
   }
 
   useEffect(() => {
     if (imageObject.display && quill) {
       quill?.disable();
     }
-  }, [imageObject, quill])
+  }, [imageObject, quill]);
 
   return (
     <div
-    style={{
-      display: show,
-      top: imageObject.y,
-      left: imageObject.x,
-    }}
-    ref={divRef}
-    onKeyDown={(e) => keyboardHandler(e)}
-    id="imageModal">
+      style={{
+        display: show,
+        top: imageObject.y,
+        left: imageObject.x,
+      }}
+      ref={divRef}
+      onKeyDown={(e) => keyboardHandler(e)}
+      id="imageModal">
       <FormInputText  className="briefing-input"
-      type='string'
-      name=''
-      placeholder='Enter image path...'
-      value={pathName}
-      onValueChanged={(x) => setPathName(x)}
+        type='string'
+        name=''
+        placeholder='Enter image path...'
+        value={pathName}
+        onValueChanged={(x) => setPathName(x)}
       />
       <button
-      onClick={() => acceptImageName()}
+        onClick={() => acceptImageName()}
       >
         →
       </button>
       <div>
         <label htmlFor="width">Width:</label>
         <select id="width"
-        value={width} onChange={(e) => {setWidth(e.target.value)}}>
+          value={width} onChange={(e) => {setWidth(e.target.value);}}>
           <option value="512">512</option>
           <option value="256">256</option>
           <option value="">128</option>
@@ -121,7 +121,7 @@ export function ImageModal({quill, divRef, imageObject, imageRef, setImageObject
       <div>
         <label htmlFor="height">Height:</label>
         <select id="height"
-        value={height} onChange={(e) => {setHeight(e.target.value)}}>
+          value={height} onChange={(e) => {setHeight(e.target.value);}}>
           <option value="512">512</option>
           <option value="256">256</option>
           <option value="">128</option>
@@ -135,5 +135,5 @@ export function ImageModal({quill, divRef, imageObject, imageRef, setImageObject
       </div>
       
     </div>
-  )
+  );
 }

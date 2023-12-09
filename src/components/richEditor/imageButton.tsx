@@ -16,7 +16,7 @@ export function ImageButton({quill, shine, modal, setModal}: ImageButtonProps) {
         const selection = quill.getSelection();
         if (selection) {
           
-          let imageSelection = selection;
+          const imageSelection = selection;
           
           quill.disable();
           setModal({
@@ -41,17 +41,16 @@ export function ImageButton({quill, shine, modal, setModal}: ImageButtonProps) {
       }
     }
     
-    
   
   }
 
   return (
     <button id="markerButton"
-    onClick={(e)=>{click(e)}}
-    className={`${shine ? "ql-active" : ""}`}
+      onClick={(e)=>{click(e);}}
+      className={`${shine ? "ql-active" : ""}`}
     >
       Image
     </button>
-  )
+  );
 }
 

@@ -19,26 +19,26 @@ export default function NavBar({sharedLink = '', links, highlight = 'blue', dire
     if (typeof linkObj.link === 'string') {
       return (
         <PageLink key={index} link={sharedLink + linkObj.link}>{linkObj.title || linkObj.link}</PageLink>
-      )
+      );
     }
     else if (typeof linkObj.link === 'boolean') {
       return (
         <li key={index} className="locked">{linkObj.title}</li>
-      )
+      );
     }
     else {
       const callback = linkObj.link;
       return (
         <li key={index}><button onClick={() => callback()}>{linkObj.title || "button"}</button></li>
-      )
+      );
     }
-  })
+  });
 
   return (
     <ul className={["nav-bar",highlight,direction].join(' ')}>
       {pageLinks}
     </ul>
-  )
+  );
 }
 
 interface PageLinkProps {
@@ -52,12 +52,12 @@ function PageLink({children, link}: PageLinkProps) {
       <NavLink
         to={link}
         className={({ isActive }) =>
-        isActive ? "active" : ""
+          isActive ? "active" : ""
         }
       >
         {children}
       </NavLink>
     </li>
-  )
+  );
 }
 

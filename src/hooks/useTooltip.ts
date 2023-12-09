@@ -16,7 +16,7 @@ const DEFAULT_STATE = {
   position: {x: 0, y: 0},
   element: null,
   hidden: true,
-}
+};
 
 export default function useTooltip(): useTooltipState {
   const [tooltipState, setTooltipState] = useState<TooltipWindowState>(DEFAULT_STATE);
@@ -25,14 +25,14 @@ export default function useTooltip(): useTooltipState {
     return {
       element: tooltip,
       setState: setTooltipState
-    }
+    };
   }
 
   return [tooltipState, assignTooltip];
 }
 
 export type tooltipProp = {
-  element: React.ReactElement<any, any>,
+  element: React.ReactNode,
   setState: React.Dispatch<React.SetStateAction<TooltipWindowState>>,
 } | null;
 
@@ -55,7 +55,7 @@ export function useTooltipComponent(tooltip: tooltipProp): useTooltipComponentTy
         position: {x, y},
         element: tooltip.element,
         hidden: false,
-      })
+      });
     }
   }
   function hideTooltip() {
@@ -69,12 +69,11 @@ export function useTooltipComponent(tooltip: tooltipProp): useTooltipComponentTy
 
   useEffect(() => {
     if (showTooltip) {
-      displayTooltip(showTooltip.x, showTooltip.y)
+      displayTooltip(showTooltip.x, showTooltip.y);
     } else {
       hideTooltip();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showTooltip])
+  }, [showTooltip]);
 
   function mouseMovedHandler(e: React.MouseEvent<HTMLElement, MouseEvent>) {
     if (tooltip) {
@@ -89,7 +88,7 @@ export function useTooltipComponent(tooltip: tooltipProp): useTooltipComponentTy
     }
   }
   function mouseLeaveHandler() {
-    hideTooltip()
+    hideTooltip();
   }
 
   return [mouseMovedHandler, mouseLeaveHandler];

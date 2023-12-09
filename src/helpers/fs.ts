@@ -4,7 +4,7 @@ export function saveFile(filename: string, text: string) {
   link.href = URL.createObjectURL(file);
   link.download = filename;
   link.click();
-  URL.revokeObjectURL(link.href)
+  URL.revokeObjectURL(link.href);
 }
 
 export function uploadFile() {
@@ -12,10 +12,11 @@ export function uploadFile() {
     const input = document.createElement('input');
     input.type = 'file';
     input.onchange = (e) => {
-      if (!e.target) {reject(null); return};
+      if (!e.target) {reject(null); return;}
       const target = e.target as HTMLInputElement;
-      const file = target.files![0] as Blob;
-      if (!file) {reject(null); return};
+      if (!target.files) return;
+      const file = target.files[0] as Blob;
+      if (!file) {reject(null); return;}
       const reader = new FileReader();
       reader.readAsText(file, 'UTF-8');
   
@@ -23,10 +24,10 @@ export function uploadFile() {
         if (!readerEvent.target) return;
         const content = readerEvent.target.result+'';
         resolve(content);
-      }
-    }
+      };
+    };
   
     input.click();
-  })
+  });
   return contentPromise;
 }

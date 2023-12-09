@@ -1,17 +1,19 @@
 import { useQuill } from 'react-quilljs';
 
+import Quill, { DeltaOperation, EditorChangeHandler, RangeStatic, TextChangeHandler } from 'quill';
 import 'quill/dist/quill.snow.css';
-import '../../styles/quill-editor.scss';
 import { memo, useEffect, useRef, useState } from 'react';
-import Quill, { EditorChangeHandler, RangeStatic, TextChangeHandler } from 'quill';
-import { MarkerModal, MarkerModalStateObject } from './markerModal';
-import { MarkerButton } from './markerButton';
-import { LinkModal, LinkModalStateObject } from './linkModal';
-import { LinkButton } from './linkButton';
 import { storageChangeValue, storageGetValue } from '../../storage/storage';
-import imageOFPBlot, { imageOFPValue } from './imageOFPclass';
-import { ImageModal, ImageModalStateObject } from './imageModal';
+import '../../styles/quill-editor.scss';
 import { ImageButton } from './imageButton';
+import { ImageModal, ImageModalStateObject } from './imageModal';
+import imageOFPBlot, { imageOFPValue } from './imageOFPclass';
+import { LinkButton } from './linkButton';
+import { LinkModal, LinkModalStateObject } from './linkModal';
+import { MarkerButton } from './markerButton';
+import { MarkerModal, MarkerModalStateObject } from './markerModal';
+
+export type Delta = ReturnType<typeof Quill.prototype.getContents>;
 
 interface RichEditorQuillProps {
   currentPagePath: string,
@@ -90,23 +92,24 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
       editorChangeShineHandler.current = function() {
         //Highlight marker and page link buttons on toolbar whenever you select them
         //shineImage is handled inside 'onClick' event due to diffferent nature
-          const selection = quill.getSelection();
-          const format = selection ? quill.getFormat(selection) : null; // Throws error if using simple quill.getFormat()
-          if (format) {
-            if(format.markerLink) {
-              setShineMarker(true);
-            } else {
-              setShineMarker(false);
-            }
-            if(format.pageLink) {
-              setShineLink(true);
-            } else {
-              setShineLink(false);
-            }
+        const selection = quill.getSelection();
+        const format = selection ? quill.getFormat(selection) : null; // Throws error if using simple quill.getFormat()
+        if (format) {
+          if(format.markerLink) {
+            setShineMarker(true);
+          } else {
+            setShineMarker(false);
           }
+          if(format.pageLink) {
+            setShineLink(true);
+          } else {
+            setShineLink(false);
+          }
+        }
       };
       quill.on('editor-change', editorChangeShineHandler.current);
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       editorChangePasteHandler.current = function(name: string, ...args: any[]) {
         //I don't understand why 'silent' source moves caret from new position
         //to old position whenever you paste text
@@ -123,7 +126,7 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
             }
           }
         }
-      }
+      };
       quill.on('editor-change', editorChangePasteHandler.current);
 
       textChangeLinksHandler.current = function(newD) {
@@ -141,18 +144,19 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
           const atrbtsNext = next.ops[0].attributes;
           const atrbtsPrev = prev.ops.length > 0 ? prev.ops[0].attributes : null;
           const atrbtsCurrent = insertOperation.attributes;
-          const cmpAtrbts = (o1: any, o2: any) => {if (!o1 && !o2) return true; if (!o1 || !o2) return false;return o1.pageLink === o2.pageLink || o1.markerLink === o2.markerLink};
+          type Attribute = typeof atrbtsNext | null | undefined;
+          const cmpAtrbts = (o1: Attribute, o2: Attribute) => {if (!o1 && !o2) return true; if (!o1 || !o2) return false;return o1.pageLink === o2.pageLink || o1.markerLink === o2.markerLink;};
           if (!cmpAtrbts(atrbtsNext, atrbtsCurrent) || !cmpAtrbts(atrbtsPrev, atrbtsCurrent)) {
             const insert = insertOperation.insert as string;
             if (typeof insert === 'string') {
               const insertedLength = insert.length;
-              const deltaToApply: {ops: any[]} = {
+              const deltaToApply: {ops: DeltaOperation[]} = {
                 ops: [
                   { retain: insertedLength, attributes: {markerLink: '', pageLink: ''} }
                 ]
-              }
+              };
               if (isTwo) deltaToApply.ops.unshift({ retain: pos});
-              quill.updateContents(deltaToApply as any);
+              quill.updateContents(deltaToApply as Delta);
             }
           }
         }
@@ -170,8 +174,8 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
         editorChangePasteHandler.current = undefined;
         textChangeLinksHandler.current = undefined;
       }
-    }
-  }, [Quill, quill])
+    };
+  }, [Quill, quill]);
 
   //Attach event handler that prevents focus stealing
   useEffect(() => {
@@ -179,19 +183,18 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
       const nodeEditor = quillRef.current.children.item(0) as HTMLElement;
       const nodeClipboard = quillRef.current.children.item(1) as HTMLElement;
       if (!editorBlurHandler.current) {
-        editorBlurHandler.current = (e: FocusEvent) => {if (e.relatedTarget !== nodeClipboard) quill.disable()};
+        editorBlurHandler.current = (e: FocusEvent) => {if (e.relatedTarget !== nodeClipboard) quill.disable();};
         nodeEditor.addEventListener('blur', editorBlurHandler.current);
       }
     }
     return () => {
       if (quillRef.current) {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         const node = quillRef.current.children.item(0) as HTMLElement;
         if (editorBlurHandler.current) node.removeEventListener('blur', editorBlurHandler.current);
         editorBlurHandler.current = undefined;
       }
-    }
-  }, [quill, quillRef])
+    };
+  }, [quill, quillRef]);
 
   //Get content from storage
   //Add quill event handler to update storage
@@ -200,12 +203,15 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
       try {
         const pageText = storageGetValue(currentPagePath);
         quill.setContents(pageText.content);
-        textChangeStorageHandler.current = function(lol) {
+        textChangeStorageHandler.current = function() {
           const content = quill.getContents();
           storageChangeValue(currentPagePath+'/content', content);
-        }
+        };
         quill.on('text-change', textChangeStorageHandler.current);
       } catch (err) {
+        // Delta can be set as empty array.
+        // But setContents wants to see exactly "Delta" type :S
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         quill.setContents([] as any);
         quill.disable();
       }
@@ -215,8 +221,8 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
       if (quill) {
         if (textChangeStorageHandler.current) quill.off('text-change', textChangeStorageHandler.current);
       }
-    }
-  }, [quill, currentPagePath])
+    };
+  }, [quill, currentPagePath]);
 
   //Add styles to page links and marker links
   useEffect(() => {
@@ -225,22 +231,24 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
       if (!container) return;
       const childrenP = container.children;
       for (let i = 0; i < childrenP.length; i++) {
-        const childrenSpans = childrenP.item(i)!.children;
+        const child = childrenP.item(i);
+        if (!child) return;  
+        const childrenSpans = child.children;
         for (let j = 0; j < childrenSpans.length; j++) {
           const element = childrenSpans.item(j) as HTMLElement;
           const classFull = element.className;
           if (classFull.includes('ql-markerLink-')) {
-            element.classList.add('ql-markerLink')
+            element.classList.add('ql-markerLink');
             element.classList.remove('ql-pageLink');
           }
           else if (classFull.includes('ql-pageLink-')) {
-            element.classList.add('ql-pageLink')
+            element.classList.add('ql-pageLink');
             element.classList.remove('ql-markerLink');
           }
         }
       }
     }
-  }, [Quill, quill, quillRef, markerModalState, linkModalState, currentPagePath])
+  }, [Quill, quill, quillRef, markerModalState, linkModalState, currentPagePath]);
 
   function clickedInside(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
 
@@ -261,9 +269,9 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
             display: false,
             selection: null,
             markerName: '',
-          })
+          });
           quill?.enable();
-        };
+        }
       }
       if (linkModalState.display && linkModalRef.current) {
         const parent = linkModalRef.current as HTMLDivElement;
@@ -276,9 +284,9 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
             display: false,
             selection: null,
             pageName: '',
-          })
+          });
           quill?.enable();
-        };
+        }
       }
       if (imageModalState.display && imageModalRef.current) {
         const parent = imageModalRef.current as HTMLDivElement;
@@ -291,9 +299,9 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
             display: false,
             selection: null,
             imageValue: null,
-          })
+          });
           quill?.enable();
-        };
+        }
       }
 
       const image = Quill.find(e.target.parentNode);
@@ -313,34 +321,34 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
 
   return (
     <div className="quill-editor"
-    onClick={(e) => {clickedInside(e)}}
+      onClick={(e) => {clickedInside(e);}}
     >
       <MarkerModal
-      key={markerModalState.id}
-      quill={quill}
-      divRef={markerModalRef}
-      markerObject={markerModalState}
-      setMarkerObject={setMarkerModalState}
+        key={markerModalState.id}
+        quill={quill}
+        divRef={markerModalRef}
+        markerObject={markerModalState}
+        setMarkerObject={setMarkerModalState}
       ></MarkerModal>
       <LinkModal
-      key={linkModalState.id}
-      quill={quill}
-      divRef={linkModalRef}
-      linkObject={linkModalState}
-      setLinkObject={setLinkModalState}
+        key={linkModalState.id}
+        quill={quill}
+        divRef={linkModalRef}
+        linkObject={linkModalState}
+        setLinkObject={setLinkModalState}
       ></LinkModal>
       <ImageModal
-      key={imageModalState.id}
-      quill={quill}
-      divRef={imageModalRef}
-      imageObject={imageModalState}
-      imageRef={shineImage ? shineImage.ref : null}
-      setImageObject={setImageModalState}
+        key={imageModalState.id}
+        quill={quill}
+        divRef={imageModalRef}
+        imageObject={imageModalState}
+        imageRef={shineImage ? shineImage.ref : null}
+        setImageObject={setImageModalState}
       ></ImageModal>
       <div id="toolbar">
         <select
-        defaultValue=""
-        className="ql-header">
+          defaultValue=""
+          className="ql-header">
           <option value="">Normal</option>
           <option value="1">H1</option>
           <option value="2">H2</option>
@@ -350,44 +358,44 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
           <option value="6">H6</option>
         </select>
         <select
-        defaultValue=""
-        className="ql-align">
+          defaultValue=""
+          className="ql-align">
           <option value="">Left</option>
           <option value="center">Center</option>
           <option value="right">Right</option>
         </select>
         <MarkerButton
-        shine={shineMarker}
-        quill={quill}
-        modal={markerModalState}
-        setModal={setMarkerModalState}
+          shine={shineMarker}
+          quill={quill}
+          modal={markerModalState}
+          setModal={setMarkerModalState}
         ></MarkerButton>
         <LinkButton
-        shine={shineLink}
-        quill={quill}
-        modal={linkModalState}
-        setModal={setLinkModalState}
+          shine={shineLink}
+          quill={quill}
+          modal={linkModalState}
+          setModal={setLinkModalState}
         ></LinkButton>
         <ImageButton
-        divRef={imageButtonRef}
-        shine={shineImage}
-        quill={quill}
-        modal={imageModalState}
-        setModal={setImageModalState}
+          divRef={imageButtonRef}
+          shine={shineImage}
+          quill={quill}
+          modal={imageModalState}
+          setModal={setImageModalState}
         ></ImageButton>
       </div>
       <div
-      ref={quillRef} />
+        ref={quillRef} />
     </div>
   );
-})
+});
 
 export function findStartAndEnd(initial: number, searchFor: string, quill: Quill): RangeStatic {
   let start = initial;
   let end = 1;
   const limit = quill.getLength();
   const wantedFormat = quill.getFormat(start, end);
-  const wantedMarkerLink = wantedFormat[searchFor] as String;
+  const wantedMarkerLink = wantedFormat[searchFor] as string;
   while (start > 0) {
     const checkFormat = quill.getFormat(start, end);
     const checkMarkerLink = checkFormat[searchFor];
@@ -410,6 +418,6 @@ export function findStartAndEnd(initial: number, searchFor: string, quill: Quill
   return {
     index: start,
     length: end,
-  }
+  };
 }
 

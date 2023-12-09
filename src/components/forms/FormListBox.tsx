@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 export interface ListItem {
   id: string | number,
   name: string,
-  value: any,
+  value: string,
 } 
 
 export interface ListItemEvent extends ListItem {
@@ -20,7 +20,7 @@ interface FormListBoxProps {
   list: ListItem[],
   value?: string,
   regexCheck?: RegExp,
-  onChange?: (x: any, i: number) => void,
+  onChange?: (x: string | null, i: number) => void,
   onSectionAdded?: (item: ListItemAddEvent, isUnique: boolean) => void,
   onSectionRemoved?: (item: ListItemEvent) => void,
 }
@@ -51,14 +51,14 @@ export default function FormListBox({ title, list, value, onChange, onSectionAdd
   useEffect(() => {
     const id = list.findIndex(e => e.value === value);
     setSelectedValue(id);
-  }, [list, value])
+  }, [list, value]);
 
   //Focus input once it displays
   useEffect(() => {
     if (inputRef.current && addingNewSection) {
       inputRef.current.focus();
     }
-  }, [inputRef, addingNewSection])
+  }, [inputRef, addingNewSection]);
 
   function sectionAddedHandler(value: string, index: number) {
     const isUnique = list.filter((e) => e.name === value).length === 0;
@@ -67,44 +67,44 @@ export default function FormListBox({ title, list, value, onChange, onSectionAdd
     const itemEvent = {
       value,
       index,
-    }
+    };
     if (onSectionAdded) onSectionAdded(itemEvent, isUnique);
   }
   function sectionRemovedHandler(index: number) {
     const itemEvent = {
       ...list[selectedValue],
       index,
-    }
+    };
     if (onSectionRemoved) onSectionRemoved(itemEvent);
   }
 
   const items = list.map((e, i) => {
     return (
       <li key={e.id} className={`${selectedValue === i ? 'active' : ''}`}
-      onClick={() => changeSelectedValue(i)}
+        onClick={() => changeSelectedValue(i)}
       >
         {e.name}
       </li>
-    )
-  })
+    );
+  });
 
   if (onSectionAdded) {
     items.push(
-    <li key="adding">
-      {!addingNewSection ? (
-        <button
-        onClick={() => setAddingNewSection(true)}
-        >Add new section</button>
-      ) : (
-        <input
-        value={currentInput}
-        onBlur={(e) => sectionAddedHandler(e.target.value, list.length)}
-        onChange={(e) => inputChangeHandler(e)}
-        ref={inputRef}></input>
-      )}
+      <li key="adding">
+        {!addingNewSection ? (
+          <button
+            onClick={() => setAddingNewSection(true)}
+          >Add new section</button>
+        ) : (
+          <input
+            value={currentInput}
+            onBlur={(e) => sectionAddedHandler(e.target.value, list.length)}
+            onChange={(e) => inputChangeHandler(e)}
+            ref={inputRef}></input>
+        )}
       
-    </li>
-  )}
+      </li>
+    );}
   
   function handleKeyboard(e: React.KeyboardEvent<HTMLElement>) {
     if (e.target instanceof HTMLElement) {
@@ -124,9 +124,9 @@ export default function FormListBox({ title, list, value, onChange, onSectionAdd
     <div className="form-listBox">
       <h2>{title}</h2>
       <ul tabIndex={-1}
-      onKeyDown={(e) => handleKeyboard(e)}>
+        onKeyDown={(e) => handleKeyboard(e)}>
         {items}
       </ul>
     </div>
-  )
+  );
 }

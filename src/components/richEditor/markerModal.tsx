@@ -49,38 +49,38 @@ export function MarkerModal({quill, divRef, markerObject, setMarkerObject}: Mark
         markerName: '',
       });
     }
-    setMarkerName('')
+    setMarkerName('');
   }
 
   useEffect(() => {
     if (markerObject.display && quill) {
       quill?.disable();
     }
-  }, [markerObject, quill])
+  }, [markerObject, quill]);
 
   return (
     <div
-    style={{
-      display: show,
-      top: markerObject.y,
-      left: markerObject.x,
-    }}
-    ref={divRef}
-    onKeyDown={(e) => keyboardHandler(e)}
-    id="markerModal">
+      style={{
+        display: show,
+        top: markerObject.y,
+        left: markerObject.x,
+      }}
+      ref={divRef}
+      onKeyDown={(e) => keyboardHandler(e)}
+      id="markerModal">
       <FormInputText className="briefing-input"
-      type='string'
-      name=''
-      placeholder='Enter marker name...'
-      value={markerName}
-      onValueChanged={(x) => setMarkerName(x)}
+        type='string'
+        name=''
+        placeholder='Enter marker name...'
+        value={markerName}
+        onValueChanged={(x) => setMarkerName(x)}
       />
       <button
-      onClick={() => acceptMarkerName()}
+        onClick={() => acceptMarkerName()}
       
       >
         +
       </button>
     </div>
-  )
+  );
 }

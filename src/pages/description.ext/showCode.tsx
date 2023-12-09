@@ -10,21 +10,21 @@ export default function DescriptionShowCodePage() {
 
   return (
     <>
-    <TopBar></TopBar>
-    <div className="desc-shared desc-gear">
-      <DescriptionSidebar />
-      <main>
-      { 
-      entireCode[1].length === 0 ? <></> : (
-      <ul className="parse-errors">
-        {entireCode[1].map((item, index) => <li key={index}>{item}</li>)}
-      </ul> )
-      }
-      <pre className="parse-code"><code>
-        {entireCode[0].join('\n')}
-      </code></pre>
-      </main>
-    </div>
+      <TopBar></TopBar>
+      <div className="desc-shared desc-gear">
+        <DescriptionSidebar />
+        <main>
+          { 
+            entireCode[1].length === 0 ? <></> : (
+              <ul className="parse-errors">
+                {entireCode[1].map((item, index) => <li key={index}>{item}</li>)}
+              </ul> )
+          }
+          <pre className="parse-code"><code>
+            {entireCode[0].join('\n')}
+          </code></pre>
+        </main>
+      </div>
     </>
-  )
+  );
 }

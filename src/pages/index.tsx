@@ -4,13 +4,13 @@ import TopBar from "../components/TopBar";
 export default function IndexPage() {
   return (
     <>
-    <TopBar></TopBar>
-    <main className="index-main">
-      <ExtrasMenu></ExtrasMenu>
-      <HotkeysMenu></HotkeysMenu>
-    </main>
+      <TopBar></TopBar>
+      <main className="index-main">
+        <ExtrasMenu></ExtrasMenu>
+        <HotkeysMenu></HotkeysMenu>
+      </main>
     </>
-  )
+  );
 }
 
 function HotkeysMenu() {
@@ -61,7 +61,7 @@ function HotkeysMenu() {
       </ul>
 
     </div>
-  )
+  );
 }
 
 function ExtrasMenu() {
@@ -90,11 +90,11 @@ function ExtrasMenu() {
       <h2>Tables</h2>
       <ul>
         <li>
-          You can write 'X' inside cells that accept numbers
+          You can write &apos;X&apos; inside cells that accept numbers
           to reference current row
         </li>
       </ul>
 
     </div>
-  )
+  );
 }

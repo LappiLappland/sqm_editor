@@ -6,7 +6,7 @@ interface ClassesListBoxProps {
   value: number,
   setValue: React.Dispatch<React.SetStateAction<number>>,
   storagePath: string,
-  storageCreator: () => any,
+  storageCreator: () => void,
 }
 
 export default function ClassesListBox({value, setValue, storagePath, storageCreator}: ClassesListBoxProps) {
@@ -44,14 +44,14 @@ export default function ClassesListBox({value, setValue, storagePath, storageCre
   const items = classes.map((item, index) => {
     return (
       <li className={index === value ? 'active' : ''}
-      onClick={(e) => classSelected(e, index)}
-      key={index} >
-          <p>{item.className.slice(1)}</p>
-          <button onClick={() => buttonRemoveClicked(index)}
-          >X</button>
+        onClick={(e) => classSelected(e, index)}
+        key={index} >
+        <p>{item.className.slice(1)}</p>
+        <button onClick={() => buttonRemoveClicked(index)}
+        >X</button>
       </li>
-    )
-  })
+    );
+  });
 
   return (
     <div>
@@ -62,5 +62,5 @@ export default function ClassesListBox({value, setValue, storagePath, storageCre
       <button onClick={() => buttonAddClicked()}
       >Add</button>
     </div>
-  )
+  );
 }

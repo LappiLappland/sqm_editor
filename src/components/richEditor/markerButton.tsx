@@ -22,7 +22,7 @@ export function MarkerButton({quill, shine, modal, setModal}: MarkerButtonProps)
           
           if (format.markerLink) {
             initialName = format.markerLink.slice(7) as string;
-            markerSelection = findStartAndEnd(selection!.index, 'markerLink', quill)
+            markerSelection = findStartAndEnd(selection.index, 'markerLink', quill);
           } else {
             if (selection.length === 0) return;
           }
@@ -49,17 +49,16 @@ export function MarkerButton({quill, shine, modal, setModal}: MarkerButtonProps)
       }
     }
     
-    
   
   }
 
   return (
     <button id="markerButton"
-    onClick={(e)=>{click(e)}}
-    className={`${shine ? "ql-active" : ""}`}
+      onClick={(e)=>{click(e);}}
+      className={`${shine ? "ql-active" : ""}`}
     >
       Marker
     </button>
-  )
+  );
 }
 

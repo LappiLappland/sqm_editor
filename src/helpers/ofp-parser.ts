@@ -17,18 +17,18 @@ function findClosingBrackets(text: string, startFrom: number) {
 
   if (startIndex === -1)
   {
-      return endIndex;
+    return endIndex;
   }
 
   while (startIndex < endIndex)
   {
-      startIndex = text.indexOf("{", startIndex + 1);
-      endIndex = text.indexOf("}", endIndex + 1);
+    startIndex = text.indexOf("{", startIndex + 1);
+    endIndex = text.indexOf("}", endIndex + 1);
 
-      if (startIndex === -1)
-      {
-          break;
-      }
+    if (startIndex === -1)
+    {
+      break;
+    }
   }
 
   return endIndex;
@@ -36,7 +36,7 @@ function findClosingBrackets(text: string, startFrom: number) {
 
 function getClass(text: string, className: string) {
   const findRegexString = `class( )+${className}`;
-  const findRegex = new RegExp(findRegexString, 'i')
+  const findRegex = new RegExp(findRegexString, 'i');
   const startClass = text.search(findRegex);
   if (startClass === -1) return null;
   const bracketStart = text.indexOf('{', startClass);
@@ -52,9 +52,9 @@ function getClass(text: string, className: string) {
 }
 
 function getVariable(text: string, varName: string) {//|([^;]+)
-  const varNameEscaped = varName.replace('[', '\\[').replace(']', '\\]')
+  const varNameEscaped = varName.replace('[', '\\[').replace(']', '\\]');
   const findRegexString = `(${varNameEscaped})( )*=( )*([^;]+)(\n|;|$)`;
-  const findRegex = new RegExp(findRegexString, 'i')
+  const findRegex = new RegExp(findRegexString, 'i');
   const startVariable = text.match(findRegex);
   if (!startVariable) return '';
   const foundVariable = startVariable[4];
@@ -82,7 +82,7 @@ function stringOFPtoArray(text: string) {
     } else {
       vars[index] = trimmed;
     }
-  })
+  });
   return vars;
 }
 
@@ -350,7 +350,7 @@ function parseParam(text: string, id: '1' | '2') {
 
   const tableArray = valuesArray.map((value, index) => {
     return ['', '_'+textsArray[index], '$'+value];
-  })
+  });
 
   storageChangeValue('description/params/param'+id+'/titleParam', title);
   storageChangeValue('description/params/param'+id+'/defaultParam', defaultIndexStr);
@@ -360,7 +360,7 @@ function parseParam(text: string, id: '1' | '2') {
 }
 
 export default function parseDescription(text: string) {
-  //let cleanText = preprocessFile(text);
+  //Let cleanText = preprocessFile(text);
   let cleanText = text;
   const musicTracks = findCfgMusic(cleanText);
   if (musicTracks) {

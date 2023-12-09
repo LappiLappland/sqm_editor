@@ -1,30 +1,28 @@
-import { getStorage } from "../storage/storage"
-import { CHAR_TYPES } from "../storage/types"
-import { calculateValue, MathScope } from './math-number'
+import { getStorage } from "../storage/storage";
+import { CHAR_TYPES } from "../storage/types";
+import { calculateValue, MathScope } from './math-number';
 import { stringSplice } from "./strings";
 
-interface hashMap {
-  [key: string]: any,
-}
-
 const desc = getStorage().description;
+
+type hashMap = Record<string, string | boolean | number>;
 
 function convertStorageValueToOFPstyle(value: string | boolean, scope: MathScope = {}) {
   let valueStr: string | null;
   if (typeof value === 'string') {
     const typeChar = value[0] as CHAR_TYPES;
     switch (typeChar) {
-      case CHAR_TYPES.NUMBER:
-        try {
-          valueStr = calculateValue(value.slice(1), scope);
-        } catch (err) {
-          valueStr = '';
-        }
-        break;
-      default:
-        if (value.length > 1) valueStr = '"' + value.slice(1) + '"'
-        else valueStr = '';
-        break;
+    case CHAR_TYPES.NUMBER:
+      try {
+        valueStr = calculateValue(value.slice(1), scope);
+      } catch (err) {
+        valueStr = '';
+      }
+      break;
+    default:
+      if (value.length > 1) valueStr = '"' + value.slice(1) + '"';
+      else valueStr = '';
+      break;
     }
   }
   else if (typeof value === 'boolean') valueStr = (+value)+'';
@@ -40,20 +38,20 @@ function convertTableArrayToOFPstyle(array: string[][], whichIndex: number) {
   let str = '{ ';
   array.forEach((item, i) => {
     const value = convertStorageValueToOFPstyle(item[whichIndex], {x: i+1, X: i+1});
-    if (i === array.length-1) str = str + value + ' }'
-    else str = str + value + ', '
-  })
+    if (i === array.length-1) str = str + value + ' }';
+    else str = str + value + ', ';
+  });
   return str;
 }
 
 function convertArrayToOFPstyle(array: string[]) {
-  if (array.length === 0) return '{ }'
+  if (array.length === 0) return '{ }';
   let str = '{ ';
   array.forEach((item, i) => {
     const value = convertStorageValueToOFPstyle(item);
-    if (i === array.length-1) str = str + value + ' }'
-    else str = str + value + ', '
-  })
+    if (i === array.length-1) str = str + value + ' }';
+    else str = str + value + ', ';
+  });
   return str;
 }
 
@@ -61,11 +59,11 @@ function composeParams() {
   const strings: string[] = [];
   for (const [key, value] of Object.entries(desc.params)) {
     if (key !== 'param1' && key !== 'param2') {
-      let valueStr = convertStorageValueToOFPstyle(value as string | boolean);
-      if (valueStr) strings.push(`${key}=${valueStr};`)
+      const valueStr = convertStorageValueToOFPstyle(value as string | boolean);
+      if (valueStr) strings.push(`${key}=${valueStr};`);
     }
   }
-  strings.push('\n')
+  strings.push('\n');
   return strings;
 }
 
@@ -75,33 +73,33 @@ function composeParamMission(id: '1' | '2') {
   if (param.titleParam.length > 1) {
 
     if (param.array.find(item => item[2].length === 1)) {
-      return [[],[`Param${id}: values has null value! Please enter at least something.`]]
+      return [[],[`Param${id}: values has null value! Please enter at least something.`]];
     }
 
     strings.push(`titleParam${id} = ${convertStorageValueToOFPstyle(param.titleParam)};`);
     
-    const values = convertTableArrayToOFPstyle(param.array, 2)
-    strings.push(`valuesParam${id}[] = ${values};`)
+    const values = convertTableArrayToOFPstyle(param.array, 2);
+    strings.push(`valuesParam${id}[] = ${values};`);
 
     const defaultValueStr = param.array[+(param.defaultParam.slice(1))];
     const defaultValue = defaultValueStr ? convertStorageValueToOFPstyle(defaultValueStr[2]) : '0';
-    strings.push(`defValueParam${id} = ${defaultValue};`)
+    strings.push(`defValueParam${id} = ${defaultValue};`);
 
-    const texts = convertTableArrayToOFPstyle(param.array, 1)
-    strings.push(`textsParam${id}[] = ${texts};`)
+    const texts = convertTableArrayToOFPstyle(param.array, 1);
+    strings.push(`textsParam${id}[] = ${texts};`);
 
   }
-  if (strings.length > 0) strings.push('\n')
+  if (strings.length > 0) strings.push('\n');
   return [strings,[]];
 }
 
 function composeIdentity() {
   const identities = desc.cfgIdentities;
-  if (identities.length === 0) return [[],[]]
+  if (identities.length === 0) return [[],[]];
   const strings: string[] = [];
   const errors: string[] = [];
   const hashMap: hashMap = {};
-  strings.push('class cfgIdentities\n{')
+  strings.push('class cfgIdentities\n{');
   identities.forEach(cls => {
     let identity = '';
     const className = cls.className.slice(1);
@@ -124,18 +122,18 @@ function composeIdentity() {
       identity = identity + '\t};';
       strings.push(identity);
     }
-  })
-  strings.push('};\n')
+  });
+  strings.push('};\n');
   return [strings, errors];
 }
 
 function composeSounds() {
   const sounds = desc.cfgSounds;
-  if (sounds.length === 0) return [[],[]]
+  if (sounds.length === 0) return [[],[]];
   const strings: string[] = [];
   const errors: string[] = [];
   const hashMap: hashMap = {};
-  strings.push('class cfgSounds\n{')
+  strings.push('class cfgSounds\n{');
   sounds.forEach(cls => {
     let sound = '';
     const className = cls.className.slice(1);
@@ -164,18 +162,18 @@ function composeSounds() {
       sound = sound + '\t};';
       strings.push(sound);
     }
-  })
-  strings.push('};\n')
+  });
+  strings.push('};\n');
   return [strings, errors];
 }
 
 function composeMusic() {
   const tracks = desc.cfgMusic;
-  if (tracks.length === 0) return [[],[]]
+  if (tracks.length === 0) return [[],[]];
   const strings: string[] = [];
   const errors: string[] = [];
   const hashMap: hashMap = {};
-  strings.push('class cfgMusic\n{')
+  strings.push('class cfgMusic\n{');
   tracks.forEach(cls => {
     let track = '';
     const className = cls.className.slice(1);
@@ -195,18 +193,18 @@ function composeMusic() {
       track = track + '\t};';
       strings.push(track);
     }
-  })
-  strings.push('};\n')
+  });
+  strings.push('};\n');
   return [strings, errors];
 }
 
 function composeRadio() {
   const radios = desc.cfgRadio;
-  if (radios.length === 0) return [[],[]]
+  if (radios.length === 0) return [[],[]];
   const strings: string[] = [];
   const errors: string[] = [];
   const hashMap: hashMap = {};
-  strings.push('class cfgRadio\n{')
+  strings.push('class cfgRadio\n{');
   radios.forEach(cls => {
     let radio = '';
     const className = cls.className.slice(1);
@@ -228,14 +226,14 @@ function composeRadio() {
       radio = radio + '\t};';
       strings.push(radio);
     }
-  })
-  strings.push('};\n')
+  });
+  strings.push('};\n');
   return [strings, errors];
 }
 
 function composeSFX() {
   const SFXs = desc.cfgSFX;
-  if (SFXs.length === 0) return [[],[]]
+  if (SFXs.length === 0) return [[],[]];
   const strings: string[] = [];
   const errors: string[] = [];
   const hashMap: hashMap = {};
@@ -257,9 +255,9 @@ function composeSFX() {
       cls.sounds.forEach((sound, index) => {
         if (sound[0].length > 0 && sound[0][1] !== '/') sound=[stringSplice(sound[0], 1, 0, '/'), sound[1], sound[2], sound[3], sound[4], sound[5], sound[6]];
         SFX = SFX + `\t\t\tsound${index}[] = ${convertArrayToOFPstyle(sound)};\n`;
-        if (index === cls.sounds.length-1) sounds = sounds + `sound${index}`
+        if (index === cls.sounds.length-1) sounds = sounds + `sound${index}`;
         else sounds = sounds + `sound${index}, `;
-      })
+      });
       sounds = sounds + ` };\n`;
   
       SFX = SFX + sounds;
@@ -267,19 +265,19 @@ function composeSFX() {
       SFX = SFX + '\t};';
       strings.push(SFX);
     }
-  })
-  strings.push('};\n')
+  });
+  strings.push('};\n');
   return [strings, errors];
 }
 
 function composeGear(type: 'weapons' | 'magazines') {
   const param = type === 'magazines' ? desc.magazines : desc.weapons;
-  if (param.length === 0) return [[],[]]
+  if (param.length === 0) return [[],[]];
   const strings: string[] = [];
   const errors: string[] = [];
   const hashMap: hashMap = {};
 
-  strings.push(`class ${type}\n{`)
+  strings.push(`class ${type}\n{`);
   param.forEach((cls, index) => {
     const className = cls[0].slice(1);
     const value = convertStorageValueToOFPstyle(cls[1]);
@@ -293,8 +291,8 @@ function composeGear(type: 'weapons' | 'magazines') {
       hashMap[className] = true;
       strings.push(`\t\tclass ${className} { count = ${value || 0}; };`);
     }
-  })
-  strings.push(`};\n`)
+  });
+  strings.push(`};\n`);
 
   return [strings, errors];
 }
@@ -312,8 +310,8 @@ export function composeDescription() {
   const [magazines, magazinesErrors] = composeGear('magazines');
 
   return [[...paramsLines, ...param1, ...param2, ...sounds, ...music,
-  ...radio, ...SFX, ...identities, ...weapons, ...magazines],
+    ...radio, ...SFX, ...identities, ...weapons, ...magazines],
   [...param1Errors, ...param2Errors, ...soundsErrors, ...musicErrors,
     ...radioErrors, ...SFXErrors, ...identitiesErrors, ...weaponsErrors, ...magazinesErrors]
-  ]
+  ];
 }

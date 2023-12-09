@@ -10,18 +10,18 @@ export default function BriefingShowCodePage() {
 
   return (
     <>
-    <TopBar></TopBar>
-    <div className="Briefing two-columns">
-      <aside className="sidebar-low">
-        <div></div>
-        <BriefingSideBar />
-      </aside>
-      <main>
-        <pre className="parse-code briefing-code"><code>
-          {entireCode.join('\n')}
-        </code></pre>
-      </main>
-    </div>
+      <TopBar></TopBar>
+      <div className="Briefing two-columns">
+        <aside className="sidebar-low">
+          <div></div>
+          <BriefingSideBar />
+        </aside>
+        <main>
+          <pre className="parse-code briefing-code"><code>
+            {entireCode.join('\n')}
+          </code></pre>
+        </main>
+      </div>
     </>
-  )
+  );
 }

@@ -12,82 +12,82 @@ import DescriptionSidebar from './components/sidebar';
 
 export default function DescriptionGearPage() {
 
-  const [weaponsRender, reRenderWeapons] = useReducer((x) => x+1, 0)
-  const [magazinesRender, reRendermagazines] = useReducer((x) => x+1, 0)
+  const [weaponsRender, reRenderWeapons] = useReducer((x) => x+1, 0);
+  const [magazinesRender, reRendermagazines] = useReducer((x) => x+1, 0);
 
   const [tooltipState, assignTooltip] = useTooltip();
 
-  let initialState = getStorage().description;
+  const initialState = getStorage().description;
 
   return (
     <>
-    <TopBar></TopBar>
-    <div className="desc-shared desc-gear">
-      <DescriptionSidebar />
-      <main>
-        <TooltipWindow
-        state={tooltipState}
-        className="form-tooltip"
-        />
-        <h1>Gear configuration</h1>
-        <form className="desc-form-shared desc-form-gear"
-        autoComplete="off">
-          <AddGearButton type="weapons" forceRender={reRenderWeapons} assignTooltip={assignTooltip} />
-          <AddGearButton type="magazines" forceRender={reRendermagazines} assignTooltip={assignTooltip} />
-          <fieldset >
-            <h3>Weapons</h3>
-            <DynamicTable
-            tooltip={assignTooltip(GEAR_TOOLTIPS.weapons)}
-            storagePath={`description/weapons`}
-            key={weaponsRender}
-            canSelect
-            id="weapons"
-            className="form-shared form-gear"
-            value={initialState.weapons}
-            content={[
-              {
-              name: 'class',
-              type: 'class',
-              placeholder: 'class'
-              },
-              {
-              name: 'amount',
-              type: 'number-math',
-              placeholder: 'amount'
-              },
-            ]}
-            showBottomButtons={true}
-            ></DynamicTable>
-          </fieldset>
-          <fieldset>
-            <h3>Magazines</h3>
-            <DynamicTable
-            tooltip={assignTooltip(GEAR_TOOLTIPS.magazines)}
-            storagePath={`description/magazines`}
-            key={magazinesRender}
-            id="magazines"
-            className="form-shared form-gear"
-            value={initialState.magazines}
-            content={[
-              {
-              name: 'class',
-              type: 'string',
-              placeholder: 'class'
-              },
-              {
-              name: 'amount',
-              type: 'number-math',
-              placeholder: 'amount'
-              },
-            ]}
-            showBottomButtons={true}
-            ></DynamicTable>
-          </fieldset>
-        </form>
-      </main>
-    </div>
+      <TopBar></TopBar>
+      <div className="desc-shared desc-gear">
+        <DescriptionSidebar />
+        <main>
+          <TooltipWindow
+            state={tooltipState}
+            className="form-tooltip"
+          />
+          <h1>Gear configuration</h1>
+          <form className="desc-form-shared desc-form-gear"
+            autoComplete="off">
+            <AddGearButton type="weapons" forceRender={reRenderWeapons} assignTooltip={assignTooltip} />
+            <AddGearButton type="magazines" forceRender={reRendermagazines} assignTooltip={assignTooltip} />
+            <fieldset >
+              <h3>Weapons</h3>
+              <DynamicTable
+                tooltip={assignTooltip(GEAR_TOOLTIPS.weapons)}
+                storagePath={`description/weapons`}
+                key={weaponsRender}
+                canSelect
+                id="weapons"
+                className="form-shared form-gear"
+                value={initialState.weapons}
+                content={[
+                  {
+                    name: 'class',
+                    type: 'class',
+                    placeholder: 'class'
+                  },
+                  {
+                    name: 'amount',
+                    type: 'number-math',
+                    placeholder: 'amount'
+                  },
+                ]}
+                showBottomButtons={true}
+              ></DynamicTable>
+            </fieldset>
+            <fieldset>
+              <h3>Magazines</h3>
+              <DynamicTable
+                tooltip={assignTooltip(GEAR_TOOLTIPS.magazines)}
+                storagePath={`description/magazines`}
+                key={magazinesRender}
+                id="magazines"
+                className="form-shared form-gear"
+                value={initialState.magazines}
+                content={[
+                  {
+                    name: 'class',
+                    type: 'string',
+                    placeholder: 'class'
+                  },
+                  {
+                    name: 'amount',
+                    type: 'number-math',
+                    placeholder: 'amount'
+                  },
+                ]}
+                showBottomButtons={true}
+              ></DynamicTable>
+            </fieldset>
+          </form>
+        </main>
+      </div>
     </>
-  )
+  );
 }
 
 interface AddGearButtonProps {
@@ -102,7 +102,7 @@ function AddGearButton({type, forceRender, assignTooltip}: AddGearButtonProps) {
   const [valueNum, setValueNum] = useState('');
 
   const autocompleteList = type === 'magazines' ? getStorage().classes.cfgMagazines : getStorage().classes.cfgWeapons;
-  const autoCompleteObjects = autocompleteList.map(item => {return {id: item, option: item}})
+  const autoCompleteObjects = autocompleteList.map(item => {return {id: item, option: item};});
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
@@ -122,23 +122,23 @@ function AddGearButton({type, forceRender, assignTooltip}: AddGearButtonProps) {
     <fieldset className="form-gear-select">
       <div>
         <FormInputText
-        tooltip={assignTooltip(GEAR_TOOLTIPS.extraField)}
-        id={type}
-        onValueChanged={(x) => setValue(x)}
-        placeholder='class'
-        autoComplete={autoCompleteObjects}
-        name='' ></FormInputText>
+          tooltip={assignTooltip(GEAR_TOOLTIPS.extraField)}
+          id={type}
+          onValueChanged={(x) => setValue(x)}
+          placeholder='class'
+          autoComplete={autoCompleteObjects}
+          name='' ></FormInputText>
         <FormInputText
-        tooltip={assignTooltip(GEAR_TOOLTIPS.extraField)}
-        id={type+'Amount'}
-        onValueChanged={(x) => setValueNum(x)}
-        placeholder='amount'
-        type='number-math'
-        name='' ></FormInputText>
+          tooltip={assignTooltip(GEAR_TOOLTIPS.extraField)}
+          id={type+'Amount'}
+          onValueChanged={(x) => setValueNum(x)}
+          placeholder='amount'
+          type='number-math'
+          name='' ></FormInputText>
       </div>
       <button
-      onClick={(e) => handleClick(e)}
+        onClick={(e) => handleClick(e)}
       >Add to the table</button>
     </fieldset>
-  )
+  );
 }

@@ -1,0 +1,62 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2015,
+    "ecmaFeatures": {
+      "js": true
+    }
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "react"
+  ],
+  "rules": {
+    "@typescript-eslint/no-var-requires": "off",
+    "semi": [
+      "error",
+      "always"
+    ],
+    "indent": ["warn", 2],
+    "no-fallthrough": [
+      "error",
+      { "commentPattern": "break[\\s\\w]*omitted" }
+    ],
+    "no-multiple-empty-lines": [
+        1,
+        {
+            "max": 2
+        }
+    ],
+    "eqeqeq": 1,
+    "no-unused-vars": "off",
+    "no-empty-pattern": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "react/react-in-jsx-scope": "off",
+
+    "capitalized-comments": [
+      "warn",
+      "always",
+      {
+        "ignoreInlineComments": true,
+        "ignoreConsecutiveComments": true
+      }
+    ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}

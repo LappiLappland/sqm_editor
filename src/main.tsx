@@ -1,25 +1,25 @@
-import React, { useContext, useEffect } from 'react';
-import { createBrowserRouter, createHashRouter, RouterProvider } from 'react-router-dom';
-import './fonts/audreyshand.ttf'
-import './styles/reset.css'
-import './styles/index.css'
+import { useEffect } from 'react';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
+import ThemeComponent from './components/ThemeContext';
+import './fonts/audreyshand.ttf';
+import IndexPage from './pages';
+import BriefingPage from './pages/briefing.html';
+import { BriefingObjectivesPage } from './pages/briefing.html/objectives';
+import BriefingShowCodePage from './pages/briefing.html/showCode';
 import DescriptionPage from './pages/description.ext';
-import DescriptionSoundsPage from './pages/description.ext/cfgSounds';
+import DescriptionCameraEffectsPage from './pages/description.ext/cfgCameraEffects';
 import DescriptionIdentitiesPage from './pages/description.ext/cfgIdentities';
 import DescriptionMusicPage from './pages/description.ext/cfgMusic';
 import DescriptionRadioPage from './pages/description.ext/cfgRadio';
 import DescriptionSFXPage from './pages/description.ext/cfgSFX';
-import DescriptionCameraEffectsPage from './pages/description.ext/cfgCameraEffects';
+import DescriptionSoundsPage from './pages/description.ext/cfgSounds';
 import DescriptionGearPage from './pages/description.ext/gear';
 import DescriptionShowCodePage from './pages/description.ext/showCode';
-import BriefingPage from './pages/briefing.html';
-import { BriefingObjectivesPage } from './pages/briefing.html/objectives';
-import BriefingShowCodePage from './pages/briefing.html/showCode';
+import ErrorPage from './pages/error';
 import OverviewPage from './pages/overview.html';
 import OverviewShowCodePage from './pages/overview.html/showCode';
-import IndexPage from './pages';
-import ErrorPage from './pages/error';
-import ThemeComponent, { ThemeContext } from './components/ThemeContext';
+import './styles/index.css';
+import './styles/reset.css';
 
 const router = createHashRouter([
   {
@@ -83,7 +83,7 @@ const router = createHashRouter([
     path: "/overview.html/showCode/",
     element: <OverviewShowCodePage />
   }
-])
+]);
 
 export default function Main() {
 
@@ -103,5 +103,5 @@ export default function Main() {
       <RouterProvider router={router} />
     </ThemeComponent>
 
-  )
+  );
 }

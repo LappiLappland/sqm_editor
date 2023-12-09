@@ -36,19 +36,19 @@ interface AutoCompleteState {
 }
 
 export default function FormInputText({
-    name,
-    id = name,
-    storagePath,
-    type = 'string',
-    placeholder = '',
-    value = '',
-    onValueChanged,
-    disabled = false,
-    mathScope = {},
-    autoComplete = [],
-    tooltip = null,
-    className = '',
-  }: FormInputTextProps) {
+  name,
+  id = name,
+  storagePath,
+  type = 'string',
+  placeholder = '',
+  value = '',
+  onValueChanged,
+  disabled = false,
+  mathScope = {},
+  autoComplete = [],
+  tooltip = null,
+  className = '',
+}: FormInputTextProps) {
 
   const datalistRef = useRef<HTMLUListElement>(null);
 
@@ -59,7 +59,7 @@ export default function FormInputText({
 
   function changeCurrentValue(value: string) {
     if (value !== currentValue) {
-      setCurrentValue(value)
+      setCurrentValue(value);
       if (onValueChanged) onValueChanged(value);
       if (storagePath) storageChangeValue(storagePath, value);
     }
@@ -67,19 +67,19 @@ export default function FormInputText({
   
 
   function autoCompleteReducer(state: AutoCompleteState, action: number) {
-    //scrollToChild(datalistRef.current, action)
+    //ScrollToChild(datalistRef.current, action)
     return {
       current: action,
       items: filterOnlyAvailableOptions(action)
-    }
+    };
   }
 
   const [autoCompleteState, setAutoCompleteState] = useReducer(autoCompleteReducer, {
     current: -1,
     items: filterOnlyAvailableOptions(-1)
-  })
+  });
   
-  useEffect(() => {setAutoCompleteState(-1)}, [currentValue])
+  useEffect(() => {setAutoCompleteState(-1);}, [currentValue]);
 
   function filterOnlyAvailableOptions(selected: number) {
     const array: AutoCompleteItem[] = [];
@@ -91,9 +91,9 @@ export default function FormInputText({
         value: item.option,
         e: (
           <li className={a === selected ? 'active' : ''}
-          onMouseEnter={() => setAutoCompleteState(a-1)} //? Why it has to be a-1 ?????
-          onClick={() => changeCurrentValue(autoCompleteState.items[a-1].value)}
-          key={item.id}>
+            onMouseEnter={() => setAutoCompleteState(a-1)} //? Why it has to be a-1 ?????
+            onClick={() => changeCurrentValue(autoCompleteState.items[a-1].value)}
+            key={item.id}>
             {item.option}
           </li>
         )
@@ -104,7 +104,7 @@ export default function FormInputText({
   }
 
   function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
-    let newValue = e.target.value;
+    const newValue = e.target.value;
     const isCorrectNumber = type === 'number' && numberRegex.test(newValue);
     const isCorrectMath = type === 'number-math' && mathRegex.test(newValue);
     const isCorrectClass = type === 'class' && /^([_a-zA-Z][_a-zA-Z0-9]*)?$/.test(newValue);
@@ -124,7 +124,7 @@ export default function FormInputText({
       const math = calculateValue(currentValue, mathScope);
       return math === currentValue ? math : '#' + math;
     }
-    return currentValue
+    return currentValue;
   }
 
   function autoCompleteNavigation(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -132,20 +132,20 @@ export default function FormInputText({
 
     if (e.key === 'ArrowDown') {
       if (curr <= autoCompleteState.items.length-2) {
-        setAutoCompleteState(curr+1)
-        scrollToChild(datalistRef.current, curr+1)
+        setAutoCompleteState(curr+1);
+        scrollToChild(datalistRef.current, curr+1);
       } else {
-        setAutoCompleteState(0)
-        scrollToChild(datalistRef.current, 0)
+        setAutoCompleteState(0);
+        scrollToChild(datalistRef.current, 0);
       }
     }
     else if (e.key === 'ArrowUp') {
       if (curr >= 1) {
-        setAutoCompleteState(curr-1)
-        scrollToChild(datalistRef.current, curr-1)
+        setAutoCompleteState(curr-1);
+        scrollToChild(datalistRef.current, curr-1);
       } else {
-        setAutoCompleteState(autoCompleteState.items.length - 1)
-        scrollToChild(datalistRef.current, autoCompleteState.items.length - 1)
+        setAutoCompleteState(autoCompleteState.items.length - 1);
+        scrollToChild(datalistRef.current, autoCompleteState.items.length - 1);
       }
     }
     else if (e.key === 'Enter' || e.key === 'Tab') {
@@ -157,34 +157,34 @@ export default function FormInputText({
 
   return (
     <div
-    onMouseMove={(e) => tooltipChangeHandler(e)}
-    onMouseLeave={() => tooltipLeaveHandler()}
-    className={"form-text "+className}>
+      onMouseMove={(e) => tooltipChangeHandler(e)}
+      onMouseLeave={() => tooltipLeaveHandler()}
+      className={"form-text "+className}>
       {name ? (<label
-      htmlFor={id}>
+        htmlFor={id}>
         {name}
       </label>) : <></>}
       <div>
-      <input
-      type="text"
-      id={id}
-      name={id}
-      value={getValue()}
-      placeholder={placeholder}
-      onChange={(e) => changeHandler(e)}
-      disabled={disabled}
-      onFocus={(e) => setIsFocused(true)}
-      onBlur={(e) => {setTimeout(() => setIsFocused(false), 150)}} // don't judge me
-      onKeyDown={(e) => autoCompleteNavigation(e)}
-      ></input>
-      {isFocused && autoCompleteState.items.length > 0 ? (
-        <ul ref={datalistRef}
-        className="form-text-datalist">
-          {autoCompleteState.items.map(e => e.e)}
-        </ul>
-      ) : <></>
-      }
+        <input
+          type="text"
+          id={id}
+          name={id}
+          value={getValue()}
+          placeholder={placeholder}
+          onChange={(e) => changeHandler(e)}
+          disabled={disabled}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => {setTimeout(() => setIsFocused(false), 150);}} // Don't judge me
+          onKeyDown={(e) => autoCompleteNavigation(e)}
+        ></input>
+        {isFocused && autoCompleteState.items.length > 0 ? (
+          <ul ref={datalistRef}
+            className="form-text-datalist">
+            {autoCompleteState.items.map(e => e.e)}
+          </ul>
+        ) : <></>
+        }
       </div>
     </div>
-  )
+  );
 }

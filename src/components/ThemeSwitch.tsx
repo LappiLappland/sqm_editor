@@ -1,5 +1,5 @@
-import { useContext } from "react"
-import { ThemeContext } from "./ThemeContext"
+import { useContext } from "react";
+import { ThemeContext } from "./ThemeContext";
 
 export default function ThemeSwitch() {
 
@@ -12,10 +12,10 @@ export default function ThemeSwitch() {
   return (
     <div className="theme-switcher">
       <button
-      onClick={() => theme.setTheme(changeThemeTo)}
+        onClick={() => theme.setTheme(changeThemeTo)}
       >
         {theme.theme[0].toUpperCase() + theme.theme.slice(1)} Theme
       </button>
     </div>
-  )
+  );
 }

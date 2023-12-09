@@ -31,37 +31,37 @@ export default function FormInputRadioBox({name, id = name, storagePath, options
     const newValue = e.target.value;
     setSelected(+newValue);
     if (onSelectionChanged) onSelectionChanged(+newValue, options[+newValue].value);
-    if (storagePath) storageChangeValue(storagePath, options[+newValue].value)
+    if (storagePath) storageChangeValue(storagePath, options[+newValue].value);
   }
 
   const inputs = options.map((item, index) => {
     return (
       <li key={index}>
         <input
-        type="radio"
-        id={item.value}
-        name={name}
-        value={item.id}
-        checked={selected === index}
-        onChange={(e) => changeHandler(e)}
+          type="radio"
+          id={id+item.value}
+          name={name}
+          value={item.id}
+          checked={selected === index}
+          onChange={(e) => changeHandler(e)}
         />
         <label htmlFor={item.value}>
           {item.image ? (<img
-          alt={item.name}
-          src={'/sqm_editor' + item.image}
+            alt={item.name}
+            src={'/sqm_editor' + item.image}
           />) : <></>}
           {item.name}
         </label>
       </li>
-    )
-  })
+    );
+  });
   
   return (
     <ul
-    onMouseMove={(e) => tooltipChangeHandler(e)}
-    onMouseLeave={() => tooltipLeaveHandler()}
-    className={"form-radioBox " + className}>
+      onMouseMove={(e) => tooltipChangeHandler(e)}
+      onMouseLeave={() => tooltipLeaveHandler()}
+      className={"form-radioBox " + className}>
       {inputs}
     </ul>
-  )
+  );
 }

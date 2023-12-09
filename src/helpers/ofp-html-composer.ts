@@ -1,39 +1,42 @@
+import { DeltaOperation } from "quill";
 import { imageOFPValue } from "../components/richEditor/imageOFPclass";
 import { getStorage, storageGetValue } from "../storage/storage";
 
 type attributeType = {name: string, value: string};
 
+type DeltaContent = {content: {ops: DeltaOperation[]}};
+
 function embedText(text: string, tag: string, attributes: attributeType[] = [], newLined = false) {
   let opening = '<'+tag.toLowerCase();
 
   for (const attr of attributes) {
-    opening = opening + ` ${attr.name}="${attr.value}"`
+    opening = opening + ` ${attr.name}="${attr.value}"`;
   }
 
   opening = opening + '>';
   
   const closing = '</'+tag+'>';
   if (newLined) {
-    return opening+'\n'+text+'\n'+closing
+    return opening+'\n'+text+'\n'+closing;
   } else {
-    return opening+text+closing
+    return opening+text+closing;
   }
-  ;
+  
 }
 
 function createComment(comment: string) {
-  const longArrow = '<!----'+'-'.repeat(comment.length+2)+'---->'
+  const longArrow = '<!----'+'-'.repeat(comment.length+2)+'---->';
   const commentEmbed = `${longArrow}\n<!---- ${comment} ---->\n${longArrow}\n`;
   return commentEmbed;
 }
 
 function splitLongStrings(text: string, breakLimit: number) {
-  let lines = text.split('\n');
+  const lines = text.split('\n');
   let err = 0;
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
-    err++; if (err > 250) return 'ERROOOOOR'
+    err++; if (err > 250) return 'ERROOOOOR';
 
     if (line.length > breakLimit) {
       const words = line.split(' ');
@@ -41,11 +44,11 @@ function splitLongStrings(text: string, breakLimit: number) {
       for (let j = 0; j < words.length; j++) {
         const word = words[j];
         
-        err++; if (err > 250) return 'ERROOOOOR'
+        err++; if (err > 250) return 'ERROOOOOR';
         if (word.length + curLen > 66) {
           const start = words.slice(0, j+1);
           const end = words.slice(j+1);
-          lines.splice(i, 1, start.join(' ')+'', end.join(' '))
+          lines.splice(i, 1, start.join(' ')+'', end.join(' '));
           break;
         } else {
           curLen += word.length;
@@ -65,10 +68,10 @@ interface lineInformation {
   align: lineAligns,
 }
 
-function convertQuillDeltaToLines(delta: any) {
+function convertQuillDeltaToLines(delta: DeltaContent) {
   const ops = delta.content.ops;
   if (!ops) return [];
-  //console.log(ops);
+  //Console.log(ops);
   
   const lines: lineInformation[] = [];
   let previousWasLineStyle = false;
@@ -79,14 +82,14 @@ function convertQuillDeltaToLines(delta: any) {
     const attrbts = ops[i].attributes as {header?: number, align?: lineAligns, pageLink?: string, markerLink?: string} | undefined;
 
     if (typeof insert === 'string') {
-      //if (insert !== '\n') {
+      //If (insert !== '\n') {
       if (!/^\n+$/.test(insert)) {
         const split: lineInformation[] = insert.split('\n').map(str => {
           return {
             text: str ? str : '\n',
             type: str ? 'p' : 'br',
             align: 'left',
-          }
+          };
         });
 
         if (split.length > 1 && previousWasEmbed) {
@@ -106,7 +109,7 @@ function convertQuillDeltaToLines(delta: any) {
               text: '',
               type: 'p',
               align: 'left',
-            }
+            };
             lastLine = lines[0];
           }
           let textEmbed = split[0].text;
@@ -114,13 +117,13 @@ function convertQuillDeltaToLines(delta: any) {
             let link = attrbts.pageLink;
             if (link === '#main') link = '#Plan';
             if (link === '#notes') link = '#Main';
-            textEmbed = embedText(textEmbed, 'a', [{name: 'href', value: link}])
+            textEmbed = embedText(textEmbed, 'a', [{name: 'href', value: link}]);
           }
           if (attrbts?.markerLink) {
-            textEmbed = embedText(textEmbed, 'a', [{name: 'href', value: attrbts.markerLink}])
+            textEmbed = embedText(textEmbed, 'a', [{name: 'href', value: attrbts.markerLink}]);
           }
           if (!previousWasLineStyle) {
-            //console.log('embed =>', textEmbed);
+            //Console.log('embed =>', textEmbed);
             lastLine.text = lastLine.text + textEmbed;
           } else {
             lines.push({text: textEmbed, type: 'p', align: 'left'});
@@ -136,12 +139,12 @@ function convertQuillDeltaToLines(delta: any) {
         previousWasLineStyle = true;
         previousWasEmbed = false;
         if (i === ops.length - 1) {
-          const breaks: lineInformation[] = insert.slice(1).split('\n').map(str => {
+          const breaks: lineInformation[] = insert.slice(1).split('\n').map(() => {
             return {
               text: '\n',
               type: 'br',
               align: 'left',
-            }
+            };
           });
           lines.push(...breaks.slice(1));
         }
@@ -161,7 +164,7 @@ function convertQuillDeltaToLines(delta: any) {
           name: 'width',
           value: img.width+'',
         },
-      ])
+      ]);
       const lastLine = lines[lines.length-1];
       if (lastLine) {
         lastLine.text = lastLine.text + embedImg;
@@ -173,7 +176,7 @@ function convertQuillDeltaToLines(delta: any) {
     
   }
 
-  //const lines2 = JSON.parse(JSON.stringify(lines));
+  //Const lines2 = JSON.parse(JSON.stringify(lines));
   //console.log('LINES->', lines2);
 
 
@@ -184,7 +187,7 @@ function joinIdenticalLines(lines: lineInformation[]) {
 
   if (!lines[0]) return [];
 
-  const cmpLines = (l1: lineInformation, l2: lineInformation) => {return l1.align === l2.align && l1.type === l2.type};
+  const cmpLines = (l1: lineInformation, l2: lineInformation) => {return l1.align === l2.align && l1.type === l2.type;};
   const joinedLines: lineInformation[] = [lines[0]];
 
 
@@ -207,12 +210,12 @@ function joinIdenticalLines(lines: lineInformation[]) {
     }
   }
 
-  //console.log('joined->',joinedLines);
+  //Console.log('joined->',joinedLines);
 
   return joinedLines;
 }
 
-function convertQuillDeltaToString(delta: any) {
+function convertQuillDeltaToString(delta: DeltaContent) {
   const lines = convertQuillDeltaToLines(delta);
   const joinedLines = joinIdenticalLines(lines);
 
@@ -223,19 +226,19 @@ function convertQuillDeltaToString(delta: any) {
     const attributes = line.align !== 'left' ? [{name: 'align', value: line.align}] : [];
     const embed = embedText(textShorter, line.type, attributes, true);
     str += embed + '\n';
-  })
+  });
 
   return str;
 }
 
-function isDeltaEmpty(delta: any) {
+function isDeltaEmpty(delta: DeltaContent) {
   return !delta.content.ops || delta.content.ops[0].insert === '\n';
 }
 
-function createSection(name: string, delta: any, comment: string = '') {
+function createSection(name: string, delta: DeltaContent, comment = '') {
   const rawText = convertQuillDeltaToString(delta);
-  let cleanText = rawText;
-  // for (const tag of TAGS_TO_BREAK_LINE) {
+  const cleanText = rawText;
+  // For (const tag of TAGS_TO_BREAK_LINE) {
   //   cleanText = cleanText.replaceAll(`<${tag}>`, `<${tag}>\n`).replaceAll(`</${tag}>`, `\n</${tag}>\n`)
   // }
   //cleanText = cleanText.replaceAll('<', '\n<').replaceAll('>', '>\n');
@@ -252,24 +255,24 @@ function createSection(name: string, delta: any, comment: string = '') {
 }
 
 const brief = getStorage().briefing;
-const ENDINGS_KEYS: (keyof typeof brief.main)[] = ['end1','end2','end3','end4','end5','end6']
+const ENDINGS_KEYS: (keyof typeof brief.main)[] = ['end1','end2','end3','end4','end5','end6'];
 
 export function composeBriefing() {
   const main = createSection('Plan', brief.main.main, 'Mission plan'); //Plan always exists
 
-  let mainSides = [];
+  const mainSides = [];
   if (brief.memory.showSideSpecific) {
     if (!isDeltaEmpty(brief.side.mainWest)) {
-      mainSides.push(createSection('Plan.west', brief.side.mainWest, 'West Side Plan'))
+      mainSides.push(createSection('Plan.west', brief.side.mainWest, 'West Side Plan'));
     }
     if (!isDeltaEmpty(brief.side.mainEast)) {
-      mainSides.push(createSection('Plan.east', brief.side.mainEast, 'East Side Plan'))
+      mainSides.push(createSection('Plan.east', brief.side.mainEast, 'East Side Plan'));
     }
     if (!isDeltaEmpty(brief.side.mainRes)) {
-      mainSides.push(createSection('Plan.resistance', brief.side.mainRes, 'Resistance Side Plan'))
+      mainSides.push(createSection('Plan.resistance', brief.side.mainRes, 'Resistance Side Plan'));
     }
     if (!isDeltaEmpty(brief.side.mainCiv)) {
-      mainSides.push(createSection('Plan.civilian', brief.side.mainCiv, 'Civilian Side Plan'))
+      mainSides.push(createSection('Plan.civilian', brief.side.mainCiv, 'Civilian Side Plan'));
     }
   }
 
@@ -285,13 +288,13 @@ export function composeBriefing() {
 
   const extraSections = Object.entries(brief.extra).map((section) => {
     return createSection(section[0], section[1], 'CUSTOM  ===  '+section[0]);
-  })
+  });
 
   const briefingStart = '<html>\n<head>\n<meta http-equiv="Content-Type" content="text/html; charset=windows-1250">\n<title>Briefing</title>\n</head>\n<body>\n\n\n';
   const briefingEnd = '\n\n\n</body>\n</html>';
 
 
-  return [briefingStart, main, ...mainSides, notes, ...endings, objectives, ...extraSections, briefingEnd]
+  return [briefingStart, main, ...mainSides, notes, ...endings, objectives, ...extraSections, briefingEnd];
 }
 
 export function composeOverview() {

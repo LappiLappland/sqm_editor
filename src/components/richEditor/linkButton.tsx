@@ -21,13 +21,11 @@ export function LinkButton({quill, shine, modal, setModal}: LinkButtonProps) {
           let linkSelection = selection;
           
           if (format.pageLink) {
-            console.log('WTF->', format.pageLink);
             initialName = format.pageLink.slice(1) as string;
-            linkSelection = findStartAndEnd(selection!.index, 'pageLink', quill)
+            linkSelection = findStartAndEnd(selection.index, 'pageLink', quill);
           } else {
             if (selection.length === 0) return;
           }
-          console.log('->', initialName, linkSelection);
           quill.disable();
           setModal({
             id: 'linkM'+modal.id+1,
@@ -51,17 +49,16 @@ export function LinkButton({quill, shine, modal, setModal}: LinkButtonProps) {
       }
     }
     
-    
   
   }
 
   return (
     <button id="linkButton"
-    onClick={(e)=>{click(e)}}
-    className={`${shine ? "ql-active" : ""}`}
+      onClick={(e)=>{click(e);}}
+      className={`${shine ? "ql-active" : ""}`}
     >
       Link
     </button>
-  )
+  );
 }
 

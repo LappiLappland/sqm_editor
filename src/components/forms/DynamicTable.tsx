@@ -44,39 +44,39 @@ export function DynamicTable({
 
   const [currentFocus, setCurrentFocus] = useState(-1);
   const [selectedValue, setSelectedValue] = useReducer((state: number, action: number) => {
-    if (onSelected) onSelected(action)
+    if (onSelected) onSelected(action);
     return action;
   }, forceSelect ? 0 : -1);
 
-  const [values, setValues] = useState(() => value ? setInitialValues(value) : [])
+  const [values, setValues] = useState(() => value ? setInitialValues(value) : []);
 
   function setInitialValues(values: string[][]) {
     return values.map((row: string[]) => {
       return row.map((str: string) => {
         return str.slice(1);
-      })
-    })
+      });
+    });
   }
 
   const typesArray = content.map(item => {
     switch (item.type) {
-      case 'number':
-        return CHAR_TYPES.NUMBER;
-      case 'number-math':
-        return CHAR_TYPES.NUMBER;
-      case 'row-id':
-        return CHAR_TYPES.NUMBER;
-      case 'string':
-        return CHAR_TYPES.STRING;
-      case 'class':
-        return CHAR_TYPES.STRING;
-      default:
-        return CHAR_TYPES.STRING;
+    case 'number':
+      return CHAR_TYPES.NUMBER;
+    case 'number-math':
+      return CHAR_TYPES.NUMBER;
+    case 'row-id':
+      return CHAR_TYPES.NUMBER;
+    case 'string':
+      return CHAR_TYPES.STRING;
+    case 'class':
+      return CHAR_TYPES.STRING;
+    default:
+      return CHAR_TYPES.STRING;
     }
-  })
+  });
   
   function updateValue(row: number, col: number, value: string, type: DynamicTableTypes) {
-    let newValue = value;
+    const newValue = value;
 
     const isCorrectNumber = type === 'number' && numberRegex.test(newValue);
     const isCorrectMath = type === 'number-math' && mathRegex.test(newValue);
@@ -117,13 +117,15 @@ export function DynamicTable({
     const target = e.target;
     if (target instanceof HTMLInputElement) {
       if (e.key === 'ArrowDown') {
-        const row = findClosestParent(target, 'tr')!;
-        const col = findClosestParent(target, 'td')!;
+        const row = findClosestParent(target, 'tr');
+        const col = findClosestParent(target, 'td');
+        if (!row || !col) return;
+
         const index = findIndexOfChild(col);
 
         const next = row.nextElementSibling as HTMLElement;
         if (next) {
-          let newCol = next.children.item(index) as HTMLElement;
+          const newCol = next.children.item(index) as HTMLElement;
           if (newCol.children.length > 0) {
             const input = newCol.children.item(0) as HTMLElement;
             input.focus();
@@ -131,13 +133,15 @@ export function DynamicTable({
         }
       }
       else if (e.key === 'ArrowUp') {
-        const row = findClosestParent(target, 'tr')!;
-        const col = findClosestParent(target, 'td')!;
+        const row = findClosestParent(target, 'tr');
+        const col = findClosestParent(target, 'td');
+        if (!row || !col) return;
+
         const index = findIndexOfChild(col);
 
         const previous = row.previousElementSibling as HTMLElement;
         if (previous) {
-          let newCol = previous.children.item(index) as HTMLElement;
+          const newCol = previous.children.item(index) as HTMLElement;
           if (newCol.children.length > 0) {
             const input = newCol.children.item(0) as HTMLElement;
             input.focus();
@@ -145,7 +149,8 @@ export function DynamicTable({
         }
       }
       else if (e.key === 'ArrowLeft') {
-        const col = findClosestParent(target, 'td')!;
+        const col = findClosestParent(target, 'td');
+        if (!col) return;
         const previous = col.previousElementSibling as HTMLElement;
         if (previous && previous.children.length > 0) {
           const input = previous.children.item(0) as HTMLElement;
@@ -153,7 +158,9 @@ export function DynamicTable({
         }
       }
       else if (e.key === 'ArrowRight') {
-        const col = findClosestParent(target, 'td')!;
+        const col = findClosestParent(target, 'td');
+        if (!col) return;
+
         const next = col.nextElementSibling as HTMLElement;
         if (next && next.children.length > 0) {
           const input = next.children.item(0) as HTMLElement;
@@ -176,7 +183,11 @@ export function DynamicTable({
   function changeFocus(e: React.FocusEvent<HTMLElement, Element>) {
     const target = e.target as HTMLElement;
     if (target && target.tagName === 'INPUT' && !target.nextElementSibling) {
-      const row = findClosestParent(target, 'tr')!;
+      const row = findClosestParent(target, 'tr');
+      if (!row) {
+        setCurrentFocus(-1);
+        return;
+      }
       const index = findIndexOfChild(row);
       setCurrentFocus(index);
     }
@@ -207,63 +218,65 @@ export function DynamicTable({
         <td key={col} onClick={(e) => changeSelectedValue(e, row)}
         >
           <input
-          type='text'
-          placeholder={typeDefinition.placeholder}
-          onChange={(e) => updateValue(row, col, e.target.value, typeDefinition.type)}
-          value={cell}
+            id={id+row+col+''}
+            type='text'
+            placeholder={typeDefinition.placeholder}
+            onChange={(e) => updateValue(row, col, e.target.value, typeDefinition.type)}
+            value={cell}
           />
         </td>
-      )
+      );
     }
     else if (type === 'row-id') {
       return (
-        <td key={col} onClick={() => {if (canSelect) setSelectedValue(row)}}
+        <td key={col} onClick={() => {if (canSelect) setSelectedValue(row);}}
         >{row}</td>
-      )
+      );
     }
     else if (type === 'remove-button') {
       return (
         <td key={col}
-        ><button onClick={() => {removeValue(row)}}>
+        ><button onClick={() => {removeValue(row);}}>
         X</button></td>
-      )
+      );
     }
     else if (type === 'number-math') {
       return (
         <td key={col} onClick={(e) => changeSelectedValue(e, row)}
         >
           <input
-          type='text'
-          placeholder={typeDefinition.placeholder}
-          onChange={(e) => updateValue(row, col, e.target.value, typeDefinition.type)}
-          value={getCalculatedValue(cell, row)}
+            id={id+row+col+''}
+            type='text'
+            placeholder={typeDefinition.placeholder}
+            onChange={(e) => updateValue(row, col, e.target.value, typeDefinition.type)}
+            value={getCalculatedValue(cell, row)}
           />
         </td>
-      )
+      );
     }
   }
 
   const tableHeaders = content.map((item, index) => {
     return (
       <th key={index}>{item.name}</th>
-    )
-  })
+    );
+  });
 
   const tableItems = values.map((row, indexR) => {
     return (
       <tr key={indexR} tabIndex={-1} className={indexR === selectedValue ? 'selected' : ''}>
         {row.map((cell, indexC) => createCell(indexR, indexC))}
       </tr>
-    )
-  })
+    );
+  });
 
 
   return (
     <fieldset
-    onMouseMove={(e) => tooltipChangeHandler(e)}
-    onMouseLeave={() => tooltipLeaveHandler()}
-    onFocus={(e) => {changeFocus(e)}}
-    className={'form-table ' + className}>
+      onMouseMove={(e) => tooltipChangeHandler(e)}
+      onMouseLeave={() => tooltipLeaveHandler()}
+      onFocus={(e) => {changeFocus(e);}}
+      className={'form-table ' + className}>
 
       <table >
         <thead>
@@ -277,17 +290,17 @@ export function DynamicTable({
       </table>
 
       {showBottomButtons ? (<div className="buttons">
-        <button onClick={(e) => {e.preventDefault();addValue(values.length)}}
+        <button onClick={(e) => {e.preventDefault();addValue(values.length);}}
         >
           Add value
         </button>
-        <button onClick={(e) => {e.preventDefault();removeValue(values.length-1)}}
+        <button onClick={(e) => {e.preventDefault();removeValue(values.length-1);}}
         >
           Remove value
         </button>
       </div>) : <></>}
 
     </fieldset>
-  )
+  );
 
 }

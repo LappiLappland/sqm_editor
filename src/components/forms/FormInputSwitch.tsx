@@ -27,22 +27,22 @@ export default function FormInputSwitch({name, id = name, storagePath, value = f
 
   return (
     <div
-    onMouseMove={(e) => tooltipChangeHandler(e)}
-    onMouseLeave={() => tooltipLeaveHandler()}
-    className={"form-switch " + className}>
+      onMouseMove={(e) => tooltipChangeHandler(e)}
+      onMouseLeave={() => tooltipLeaveHandler()}
+      className={"form-switch " + className}>
       <span>{name}</span>
       <label
-      htmlFor={id}>
+        htmlFor={id}>
         <input
-        type="checkbox"
-        id={id}
-        name={id}
-        checked={checked}
-        onChange={(e) => handleChange(e)}
+          type="checkbox"
+          id={id}
+          name={id}
+          checked={checked}
+          onChange={(e) => handleChange(e)}
         ></input>
         <span className="slider"></span>
       </label>
       
     </div>
-  )
+  );
 }

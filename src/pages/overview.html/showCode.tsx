@@ -10,19 +10,19 @@ export default function OverviewShowCodePage() {
 
   return (
     <>
-    <TopBar></TopBar>
-    <div className="Overview">
-      <aside className="sidebar-low">
-        <nav>
-          <OverviewSideBar></OverviewSideBar>
-        </nav>
-      </aside>
-      <main>
-        <pre className="parse-code overview-code"><code>
-          {entireCode.join('\n')}
-        </code></pre>
-      </main>
-    </div>
+      <TopBar></TopBar>
+      <div className="Overview">
+        <aside className="sidebar-low">
+          <nav>
+            <OverviewSideBar></OverviewSideBar>
+          </nav>
+        </aside>
+        <main>
+          <pre className="parse-code overview-code"><code>
+            {entireCode.join('\n')}
+          </code></pre>
+        </main>
+      </div>
     </>
-  )
+  );
 }

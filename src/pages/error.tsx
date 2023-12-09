@@ -3,8 +3,8 @@ import { Navigate } from "react-router-dom";
 export default function ErrorPage() {
   return (
     <Navigate
-    to="/"
-    replace
+      to="/"
+      replace
     ></Navigate>
-  )
+  );
 }

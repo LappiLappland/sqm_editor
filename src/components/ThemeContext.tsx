@@ -26,11 +26,11 @@ export default function ThemeComponent({ children }: ThemeComponentProps) {
   const contextObject: ThemeContextI = {
     theme: theme,
     setTheme: setTheme,
-  }
+  };
 
   useEffect(() => {
     localStorage.setItem('theme', theme);
-  }, [theme])
+  }, [theme]);
 
   return (
     <ThemeContext.Provider value={contextObject}>
@@ -38,5 +38,5 @@ export default function ThemeComponent({ children }: ThemeComponentProps) {
         {children}
       </div>
     </ThemeContext.Provider>
-  )
+  );
 }

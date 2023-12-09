@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import '../styles/top-bar.scss'
+import '../styles/top-bar.scss';
 import NavBar, { pageLink } from './NavBar';
 import ThemeSwitch from './ThemeSwitch';
 
@@ -16,17 +16,17 @@ export default function TopBar() {
       <div>
         <Link to="/">
           <img
-          src="/sqm_editor/lappi.png"
-          alt="Instructions"
+            src="/sqm_editor/lappi.png"
+            alt="Instructions"
           />
         </Link>
         <NavBar
-        links={links}
-        highlight="red"
-        direction="row"
+          links={links}
+          highlight="red"
+          direction="row"
         ></NavBar>
         <ThemeSwitch />
       </div>
     </nav>
-  )
+  );
 }
