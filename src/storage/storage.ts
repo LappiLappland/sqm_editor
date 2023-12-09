@@ -7,11 +7,10 @@ import { CHAR_TYPES } from "./types";
 
 //This is kind of a state manager
 //I don't think this app needs reactive state manager
-//This state manager works in a bit weird, but very convenient way
 //It uses string paths to refer to states
 //It also only stores state, it is not reactive
 
-const descriptionDefaultParams = JSON.parse(JSON.stringify(description.params));
+const descriptionDefaultParams = structuredClone(description.params);
 
 const Mission = {
   description,
