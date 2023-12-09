@@ -118,9 +118,16 @@
       color: var(--theme-font-color);
       background-color: var(--theme-bg-color);
       border-color: var(--theme-input-border-color);
+      &:hover {
+        color: var(--theme-font-hover-color);
+        stroke: var(--theme-font-hover-color);
+      }
     }
     .ql-stroke {
       stroke: var(--theme-font-color);
+    }
+    span > svg:hover .ql-stroke {
+      stroke: var(--theme-font-hover-color);
     }
   }
 
