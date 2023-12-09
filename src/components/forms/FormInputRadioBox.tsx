@@ -21,7 +21,7 @@ interface FormInputRadioBoxProps {
   tooltip?: tooltipProp,
 }
 
-export default function FormInputRadioBox({name, id = name, storagePath, options, value = -1, className = '', tooltip = null, onSelectionChanged}: FormInputRadioBoxProps) {
+export default function FormInputRadioBox({name, storagePath, options, value = -1, className = '', tooltip = null, onSelectionChanged}: FormInputRadioBoxProps) {
 
   const [tooltipChangeHandler, tooltipLeaveHandler] = useTooltipComponent(tooltip);
 
@@ -30,6 +30,7 @@ export default function FormInputRadioBox({name, id = name, storagePath, options
   function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     const newValue = e.target.value;
     setSelected(+newValue);
+    console.log(newValue);
     if (onSelectionChanged) onSelectionChanged(+newValue, options[+newValue].value);
     if (storagePath) storageChangeValue(storagePath, options[+newValue].value);
   }
@@ -39,7 +40,7 @@ export default function FormInputRadioBox({name, id = name, storagePath, options
       <li key={index}>
         <input
           type="radio"
-          id={id+item.value}
+          id={item.value}
           name={name}
           value={item.id}
           checked={selected === index}
