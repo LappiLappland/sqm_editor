@@ -65,7 +65,6 @@ export function storageChangeValue(path: string, value: unknown) {
   }
   object[property] = newValue;
 
-  //Console.log(getStorage());
 }
 
 export function storageCreateValue(path: string, newProperty: string, value: unknown, type?: CHAR_TYPES[] | CHAR_TYPES) {
@@ -104,10 +103,8 @@ export function storageCreateValue(path: string, newProperty: string, value: unk
     //If index exists, then insert into that index
     if (+newProperty < object[property].length) {
       object[property].splice(newProperty, 0, newValue);
-      console.log('wtf');
     } else {
       object[property][newProperty] = newValue;
-      console.log('here');
     }
   }
   else {

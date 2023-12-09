@@ -108,7 +108,6 @@ function AddGearButton({type, forceRender, assignTooltip}: AddGearButtonProps) {
     e.preventDefault();
     const currentGear = type === 'magazines' ? getStorage().description.magazines : getStorage().description.weapons;
     const ind = currentGear.findIndex(item => item[0].slice(1) === value);
-    console.log(ind);
     if (ind >= 0) {
       storageChangeValue(`description/${type}/${ind}/1`, valueNum);
     } else {

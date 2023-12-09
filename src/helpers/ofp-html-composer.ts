@@ -71,8 +71,6 @@ interface lineInformation {
 function convertQuillDeltaToLines(delta: DeltaContent) {
   const ops = delta.content.ops;
   if (!ops) return [];
-  //Console.log(ops);
-  
   const lines: lineInformation[] = [];
   let previousWasLineStyle = false;
   let previousWasEmbed = false;
@@ -123,7 +121,6 @@ function convertQuillDeltaToLines(delta: DeltaContent) {
             textEmbed = embedText(textEmbed, 'a', [{name: 'href', value: attrbts.markerLink}]);
           }
           if (!previousWasLineStyle) {
-            //Console.log('embed =>', textEmbed);
             lastLine.text = lastLine.text + textEmbed;
           } else {
             lines.push({text: textEmbed, type: 'p', align: 'left'});
@@ -176,10 +173,6 @@ function convertQuillDeltaToLines(delta: DeltaContent) {
     
   }
 
-  //Const lines2 = JSON.parse(JSON.stringify(lines));
-  //console.log('LINES->', lines2);
-
-
   return lines;
 }
 
@@ -209,8 +202,6 @@ function joinIdenticalLines(lines: lineInformation[]) {
       joinedLines.push(curLine);
     }
   }
-
-  //Console.log('joined->',joinedLines);
 
   return joinedLines;
 }

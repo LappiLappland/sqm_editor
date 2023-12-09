@@ -30,7 +30,6 @@ export default function FormInputRadioBox({name, storagePath, options, value = -
   function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     const newValue = e.target.value;
     setSelected(+newValue);
-    console.log(newValue);
     if (onSelectionChanged) onSelectionChanged(+newValue, options[+newValue].value);
     if (storagePath) storageChangeValue(storagePath, options[+newValue].value);
   }
