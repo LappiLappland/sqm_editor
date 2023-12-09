@@ -75,7 +75,6 @@ function convertQuillDeltaToLines(delta: DeltaContent) {
   let previousWasLineStyle = false;
   let previousWasEmbed = false;
   let previousWasImage = false;
-  console.log('ops =>', ops);
 
   for (let i = 0; i < ops.length; i++) {
     const insert = ops[i].insert as string | {imageOFP: imageOFPValue};
@@ -194,7 +193,6 @@ function joinIdenticalLines(lines: lineInformation[]) {
   const cmpLines = (l1: lineInformation, l2: lineInformation) => {return l1.align === l2.align && l1.type === l2.type;};
   const joinedLines: lineInformation[] = [lines[0]];
 
-
   for (let i = 1; i < lines.length; i++) {
     const curLine = lines[i];
     const lastJoinedLine = joinedLines[joinedLines.length - 1];
@@ -213,9 +211,6 @@ function joinIdenticalLines(lines: lineInformation[]) {
       joinedLines.push(curLine);
     }
   }
-
-  const clone = JSON.parse(JSON.stringify(joinedLines));
-  console.log(clone);
 
   return joinedLines;
 }
