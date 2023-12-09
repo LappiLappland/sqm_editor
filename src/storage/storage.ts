@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import description from "./data/description";
 import classes from "./classes/classes";
 import briefing from "./data/briefing";
@@ -28,11 +27,10 @@ function getDeepObjectWithProperty(properties: string[]) {
   let currentProperty = Mission;
   let previousProperty = Mission;
   for (let i = 0; i < properties.length; i++) {
-    const item = properties[i];
+    const item = properties[i] as keyof typeof currentProperty;
     // eslint-disable-next-line no-prototype-builtins
     if (currentProperty.hasOwnProperty(item)) {
       previousProperty = currentProperty;
-      /* @ts-ignore */
       currentProperty = currentProperty[item];
     } else {
       return null;
@@ -41,8 +39,6 @@ function getDeepObjectWithProperty(properties: string[]) {
   return previousProperty;
 }
 
-//? Im not sure how to make typeScript belive that this is type safe
-//? For now I've just made it ignore lines
 export function storageChangeValue(path: string, value: unknown) {
   const proprts = path.split('/');
 
@@ -52,14 +48,11 @@ export function storageChangeValue(path: string, value: unknown) {
     throw error;
   }
   
-  const property = proprts[proprts.length - 1];
-  /* @ts-ignore */
+  const property = proprts[proprts.length - 1] as keyof typeof object;
   if (typeof object[property] !== typeof value) {
-    /* @ts-ignore */
     if (typeof object[property] === 'boolean' && (value === '0' || value === '1')) {
       value = value === '0' ? false : true;
     } else {
-      /* @ts-ignore */
       const error = new Error(`Invalid type for storage. Expected "${typeof object[property]}", but received "${typeof value}" from "${value}" for "${path}"`);
       throw error;
     }
@@ -67,10 +60,8 @@ export function storageChangeValue(path: string, value: unknown) {
   let newValue = value;
   if (typeof value === 'string') {
     //Add first char which declares string type
-    /* @ts-ignore */
     newValue = object[property][0] + value;
   }
-  /* @ts-ignore */
   object[property] = newValue;
 
   //Console.log(getStorage());
@@ -85,7 +76,7 @@ export function storageCreateValue(path: string, newProperty: string, value: unk
     throw error;
   }
 
-  const property = proprts[proprts.length - 1];
+  const property = proprts[proprts.length - 1] as keyof typeof object;
 
   let newValue = value;
   if (typeof value === 'string') {
@@ -94,9 +85,7 @@ export function storageCreateValue(path: string, newProperty: string, value: unk
       throw error;
     }
     //Add first char which declares string type
-    /* @ts-ignore */
     newValue = type + value;
-    /* @ts-ignore */
     object[property][newProperty] = newValue;
   }
   else if (Array.isArray(value) && Array.isArray(newValue)) {
@@ -112,24 +101,18 @@ export function storageCreateValue(path: string, newProperty: string, value: unk
       newValue[i] = type[i] + value[i];
     }
     //If index exists, then insert into that index
-    /* @ts-ignore */
     if (+newProperty < object[property].length) {
-      /* @ts-ignore */
       object[property].splice(newProperty, 0, newValue);
       console.log('wtf');
     } else {
-      /* @ts-ignore */
       object[property][newProperty] = newValue;
       console.log('here');
     }
   }
   else {
     newValue = value;
-    /* @ts-ignore */
     object[property][newProperty] = newValue;
   }
-  /* @ts-ignore */
-  //console.log(object[property], object[property].length, newProperty, +newProperty < object[property].length, value.length, value)
 }
 
 export function storageRemoveValue(path: string) {
@@ -141,11 +124,10 @@ export function storageRemoveValue(path: string) {
     throw error;
   }
 
-  const property = proprts[proprts.length - 1];
+  const property = proprts[proprts.length - 1] as keyof typeof object;
   if (Array.isArray(object)) {
     object.splice(+property, 1);
   } else {
-    /* @ts-ignore */
     delete object[property];
   }
 
@@ -160,8 +142,8 @@ export function storageGetValue(path: string) {
     throw error;
   }
 
-  const property = proprts[proprts.length - 1];
-  /* @ts-ignore */
+  const property = proprts[proprts.length - 1] as keyof typeof object;
+
   const returnValue = object[property];
   if (typeof returnValue === 'string') {
     return returnValue.slice(1);
