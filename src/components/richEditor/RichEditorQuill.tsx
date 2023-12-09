@@ -57,14 +57,6 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
     imageValue: null,
   });
 
-  const textChangeStorageHandler = useRef<TextChangeHandler>();
-  const textChangeLinksHandler = useRef<TextChangeHandler>();
-  const editorChangeShineHandler = useRef<EditorChangeHandler>();
-  const editorChangePasteHandler = useRef<EditorChangeHandler>();
-  const editorBlurHandler = useRef<(e: FocusEvent) => void>();
-
-  const wantedCaretPosition = useRef<number | null>(null);
-
   const markerModalRef = useRef(null);
   const linkModalRef = useRef(null);
   const imageModalRef = useRef(null);
@@ -73,6 +65,8 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
   //Add new formats
   //Attach quill event handlers
   useEffect(() => {
+    let editorChangeShineHandler: EditorChangeHandler;
+    let textChangeLinksHandler: TextChangeHandler;
     if (quill) {
 
       const parchment = Quill.import("parchment");
@@ -89,7 +83,7 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
 
       Quill.register(imageOFPBlot, true);
 
-      editorChangeShineHandler.current = function() {
+      editorChangeShineHandler = function() {
         //Highlight marker and page link buttons on toolbar whenever you select them
         //shineImage is handled inside 'onClick' event due to diffferent nature
         const selection = quill.getSelection();
@@ -107,29 +101,9 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
           }
         }
       };
-      quill.on('editor-change', editorChangeShineHandler.current);
+      quill.on('editor-change', editorChangeShineHandler);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      editorChangePasteHandler.current = function(name: string, ...args: any[]) {
-        //I don't understand why 'silent' source moves caret from new position
-        //to old position whenever you paste text
-        //Only 'editor-change' event is emitted when 'silent' source is used too
-        //This code (hopefuly) prevents that weird behaviour
-        //console.log(name, args, args[2]);
-        if (name === 'selection-change' && args[2] === 'silent' && args[0] && args[1]) {
-          if (!wantedCaretPosition.current) {
-            wantedCaretPosition.current = args[1].index;
-          } else {
-            if (args[1].index === wantedCaretPosition.current) {
-              quill.setSelection(wantedCaretPosition.current, 0);
-              wantedCaretPosition.current = null;
-            }
-          }
-        }
-      };
-      quill.on('editor-change', editorChangePasteHandler.current);
-
-      textChangeLinksHandler.current = function(newD) {
+      textChangeLinksHandler = function(newD) {
         //When you type after marker or page links,
         //Format is preserved, which is definetly unwanted behaviour.
         //This code prevents that from happening.
@@ -161,53 +135,31 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
           }
         }
       };
-      quill.on('text-change', textChangeLinksHandler.current);
+      quill.on('text-change', textChangeLinksHandler);
 
     }
 
     return () => {
       if (quill) {
-        if (editorChangeShineHandler.current) quill.off('editor-change', editorChangeShineHandler.current);
-        if (editorChangePasteHandler.current) quill.off('editor-change', editorChangePasteHandler.current);
-        if (textChangeLinksHandler.current) quill.off('text-change', textChangeLinksHandler.current);
-        editorChangeShineHandler.current = undefined;
-        editorChangePasteHandler.current = undefined;
-        textChangeLinksHandler.current = undefined;
+        quill.off('editor-change', editorChangeShineHandler);
+        quill.off('text-change', textChangeLinksHandler);
       }
     };
   }, [Quill, quill]);
 
-  //Attach event handler that prevents focus stealing
-  useEffect(() => {
-    if (quill && quillRef.current) {
-      const nodeEditor = quillRef.current.children.item(0) as HTMLElement;
-      const nodeClipboard = quillRef.current.children.item(1) as HTMLElement;
-      if (!editorBlurHandler.current) {
-        editorBlurHandler.current = (e: FocusEvent) => {if (e.relatedTarget !== nodeClipboard) quill.disable();};
-        nodeEditor.addEventListener('blur', editorBlurHandler.current);
-      }
-    }
-    return () => {
-      if (quillRef.current) {
-        const node = quillRef.current.children.item(0) as HTMLElement;
-        if (editorBlurHandler.current) node.removeEventListener('blur', editorBlurHandler.current);
-        editorBlurHandler.current = undefined;
-      }
-    };
-  }, [quill, quillRef]);
-
   //Get content from storage
   //Add quill event handler to update storage
   useEffect(() => {
+    let textChangeStorageHandler: TextChangeHandler;
     if (quill) {
       try {
         const pageText = storageGetValue(currentPagePath);
         quill.setContents(pageText.content);
-        textChangeStorageHandler.current = function() {
+        textChangeStorageHandler = function() {
           const content = quill.getContents();
           storageChangeValue(currentPagePath+'/content', content);
         };
-        quill.on('text-change', textChangeStorageHandler.current);
+        quill.on('text-change', textChangeStorageHandler);
       } catch (err) {
         // Delta can be set as empty array.
         // But setContents wants to see exactly "Delta" type :S
@@ -219,7 +171,7 @@ export default memo(function RichEditorQuill({ currentPagePath }: RichEditorQuil
 
     return () => {
       if (quill) {
-        if (textChangeStorageHandler.current) quill.off('text-change', textChangeStorageHandler.current);
+        quill.off('text-change', textChangeStorageHandler);
       }
     };
   }, [quill, currentPagePath]);
