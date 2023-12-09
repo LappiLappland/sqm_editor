@@ -74,6 +74,8 @@ function convertQuillDeltaToLines(delta: DeltaContent) {
   const lines: lineInformation[] = [];
   let previousWasLineStyle = false;
   let previousWasEmbed = false;
+  let previousWasImage = false;
+  console.log('ops =>', ops);
 
   for (let i = 0; i < ops.length; i++) {
     const insert = ops[i].insert as string | {imageOFP: imageOFPValue};
@@ -96,6 +98,7 @@ function convertQuillDeltaToLines(delta: DeltaContent) {
           lines.push(...split.slice(1));
           previousWasEmbed = false;
           previousWasLineStyle = false;
+          previousWasImage = false;
         }
         else if (split.length > 1) {
           lines.push(...split);
@@ -127,24 +130,26 @@ function convertQuillDeltaToLines(delta: DeltaContent) {
           }
           previousWasLineStyle = false;
           previousWasEmbed = true;
+          previousWasImage = false;
         }
       } else {
         const lastLine = lines[lines.length-1];
-        if (!attrbts) continue; //Impossible
-        if (attrbts.header) lastLine.type = 'h'+attrbts.header as lineTypes;
-        if (attrbts.align) lastLine.align = attrbts.align;
+        if (attrbts) {
+          if (attrbts.header) lastLine.type = 'h'+attrbts.header as lineTypes;
+          if (attrbts.align) lastLine.align = attrbts.align;
+        }
         previousWasLineStyle = true;
         previousWasEmbed = false;
-        if (i === ops.length - 1) {
-          const breaks: lineInformation[] = insert.slice(1).split('\n').map(() => {
-            return {
-              text: '\n',
-              type: 'br',
-              align: 'left',
-            };
-          });
-          lines.push(...breaks.slice(1));
-        }
+        const breaks: lineInformation[] = insert.slice(1).split('\n').map(() => {
+          return {
+            text: '\n',
+            type: 'br',
+            align: 'left',
+          };
+        });
+        const cut = previousWasImage ? 0 : 1;
+        lines.push(...breaks.slice(cut));
+        previousWasImage = false;
       }
     } else {
       const img = insert.imageOFP;
@@ -164,11 +169,17 @@ function convertQuillDeltaToLines(delta: DeltaContent) {
       ]);
       const lastLine = lines[lines.length-1];
       if (lastLine) {
-        lastLine.text = lastLine.text + embedImg;
+        if (lastLine.type === 'br') {
+          lastLine.type = 'p';
+          lastLine.text = embedImg;
+        } else {
+          lastLine.text += embedImg;
+        }
       } else {
         lines[0] = {text: embedImg, type: 'p', align: 'left'};
       }
       previousWasEmbed = true;
+      previousWasImage = true;
     }
     
   }
@@ -202,6 +213,9 @@ function joinIdenticalLines(lines: lineInformation[]) {
       joinedLines.push(curLine);
     }
   }
+
+  const clone = JSON.parse(JSON.stringify(joinedLines));
+  console.log(clone);
 
   return joinedLines;
 }
