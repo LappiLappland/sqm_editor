@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/sqm_editor/static/css/main.83216423.css",
-    "main.js": "/sqm_editor/static/js/main.a6ccf98c.js",
+    "main.css": "/sqm_editor/static/css/main.00259d37.css",
+    "main.js": "/sqm_editor/static/js/main.213ae2e3.js",
     "static/media/audreyshand.ttf": "/sqm_editor/static/media/audreyshand.1f46aa582c0e62c8b65c.ttf",
     "index.html": "/sqm_editor/index.html",
-    "main.83216423.css.map": "/sqm_editor/static/css/main.83216423.css.map",
-    "main.a6ccf98c.js.map": "/sqm_editor/static/js/main.a6ccf98c.js.map"
+    "main.00259d37.css.map": "/sqm_editor/static/css/main.00259d37.css.map",
+    "main.213ae2e3.js.map": "/sqm_editor/static/js/main.213ae2e3.js.map"
   },
   "entrypoints": [
-    "static/css/main.83216423.css",
-    "static/js/main.a6ccf98c.js"
+    "static/css/main.00259d37.css",
+    "static/js/main.213ae2e3.js"
   ]
 }
