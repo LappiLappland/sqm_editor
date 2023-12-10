@@ -21,6 +21,8 @@ import OverviewShowCodePage from './pages/overview.html/showCode';
 import './styles/index.css';
 import './styles/reset.css';
 
+export const PAGE_PATH = '/sqm_editor';
+
 const router = createHashRouter([
   {
     path: "/",
@@ -28,59 +30,63 @@ const router = createHashRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/description.ext/",
+    path: PAGE_PATH+"/",
+    element: <IndexPage />,
+  },
+  {
+    path: PAGE_PATH+"/description.ext/",
     element: <DescriptionPage />,
   },
   {
-    path: "/description.ext/cfgSounds/",
+    path: PAGE_PATH+"/description.ext/cfgSounds/",
     element: <DescriptionSoundsPage />,
   },
   {
-    path: "/description.ext/cfgIdentities/",
+    path: PAGE_PATH+"/description.ext/cfgIdentities/",
     element: <DescriptionIdentitiesPage />,
   },
   {
-    path: "/description.ext/cfgMusic/",
+    path: PAGE_PATH+"/description.ext/cfgMusic/",
     element: <DescriptionMusicPage />,
   },
   {
-    path: "/description.ext/cfgRadio/",
+    path: PAGE_PATH+"/description.ext/cfgRadio/",
     element: <DescriptionRadioPage />,
   },
   {
-    path: "/description.ext/cfgSFX/",
+    path: PAGE_PATH+"/description.ext/cfgSFX/",
     element: <DescriptionSFXPage />,
   },
   {
-    path: "/description.ext/cfgCameraEffects/",
+    path: PAGE_PATH+"/description.ext/cfgCameraEffects/",
     element: <DescriptionCameraEffectsPage />,
   },
   {
-    path: "/description.ext/gear/",
+    path: PAGE_PATH+"/description.ext/gear/",
     element: <DescriptionGearPage />,
   },
   {
-    path: "/description.ext/showCode/",
+    path: PAGE_PATH+"/description.ext/showCode/",
     element: <DescriptionShowCodePage />,
   },
   {
-    path: "/briefing.html/",
+    path: PAGE_PATH+"/briefing.html/",
     element: <BriefingPage />
   },
   {
-    path: "/briefing.html/objectives/",
+    path: PAGE_PATH+"/briefing.html/objectives/",
     element: <BriefingObjectivesPage />
   },
   {
-    path: "/briefing.html/showCode/",
+    path: PAGE_PATH+"/briefing.html/showCode/",
     element: <BriefingShowCodePage />
   },
   {
-    path: "/overview.html/",
+    path: PAGE_PATH+"/overview.html/",
     element: <OverviewPage />
   },
   {
-    path: "/overview.html/showCode/",
+    path: PAGE_PATH+"/overview.html/showCode/",
     element: <OverviewShowCodePage />
   }
 ]);
