@@ -17,7 +17,7 @@ export default function TopBar() {
       <div>
         <Link to="/">
           <img
-            src={PAGE_PATH+'/lappi.png'}
+            src={PAGE_PATH+'sqm_editor/lappi.png'}
             alt="Instructions"
           />
         </Link>

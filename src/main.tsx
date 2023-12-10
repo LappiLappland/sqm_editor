@@ -21,17 +21,13 @@ import OverviewShowCodePage from './pages/overview.html/showCode';
 import './styles/index.css';
 import './styles/reset.css';
 
-export const PAGE_PATH = '/sqm_editor';
+export const PAGE_PATH = '';
 
 const router = createHashRouter([
   {
     path: "/",
     element: <IndexPage />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: PAGE_PATH+"/",
-    element: <IndexPage />,
   },
   {
     path: PAGE_PATH+"/description.ext/",

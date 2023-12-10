@@ -49,7 +49,7 @@ export default function FormInputRadioBox({name, storagePath, options, value = -
         <label htmlFor={item.value}>
           {item.image ? (<img
             alt={item.name}
-            src={PAGE_PATH + item.image}
+            src={PAGE_PATH + 'sqm_editor' + item.image}
           />) : <></>}
           {item.name}
         </label>
