@@ -7,6 +7,9 @@
     color: var(--theme-font-color);
     padding: 8px;
     z-index: 1;
+    
+    height: calc(100vh - 58px);
+    overflow-y: auto;
 
     fieldset {
       border: 1px solid var(--theme-border-secondary-color);

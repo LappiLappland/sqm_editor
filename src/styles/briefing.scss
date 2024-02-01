@@ -44,7 +44,7 @@
     justify-content: space-around;
     min-width: 15vw;
     position: relative;
-    height: 95%;
+    height: 100%;
     background-color: var(--theme-bg-secondary-2-color);
 
     > div {
@@ -56,7 +56,8 @@
     box-sizing: border-box;
     height: 100vh;
     width: 100%;
-    overflow: auto;
+    height: calc(100vh - 58px);
+    overflow-y: auto;
   }
 
 }
