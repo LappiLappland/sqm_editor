@@ -15,4 +15,4 @@ This simple app for Arma: Cold War Assault  (also known as Operation Flashpoint)
 - expr-eval — mathematical expression evaluator
 - Quill.js — rich editor framework
 - react-quilljs - React hook wrapper for Quill
-- made using react-create-app, so anything inside of it too
+- Custom webpack configuration

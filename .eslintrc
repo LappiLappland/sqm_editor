@@ -3,7 +3,8 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -24,20 +25,9 @@
   ],
   "rules": {
     "@typescript-eslint/no-var-requires": "off",
-    "semi": [
-      "error",
-      "always"
-    ],
-    "indent": ["warn", 2],
     "no-fallthrough": [
       "error",
       { "commentPattern": "break[\\s\\w]*omitted" }
-    ],
-    "no-multiple-empty-lines": [
-        1,
-        {
-            "max": 2
-        }
     ],
     "eqeqeq": 1,
     "no-unused-vars": "off",
